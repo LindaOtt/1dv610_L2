@@ -14,6 +14,4 @@ $v = new LoginView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
-
 $lv->render(false, $v, $dtv);
-
