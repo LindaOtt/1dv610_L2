@@ -1,8 +1,6 @@
 <?php
 namespace view;
 
-
-
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -14,16 +12,6 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 
 	/**
-	* Create message depending on which input has been
-	* sent with the form
-	*
-	*/
-	public function generateMessage() {
-
-	}
-
-
-	/**
 	 * Create HTTP response
 	 *
 	 * Should be called after a login attempt has been determined
@@ -32,19 +20,22 @@ class LoginView {
 	 */
 	public function response() {
 
-		//Checking to see if a username has been submitted in the login form
-		$user = $this->getRequestUserName();
+		$message = '';
 
-		$userName = $user->getUserName();
+		//Checking to see if the form has been submitted
+		if ($this->userHasTriedToLogIn()) {
+			//Checking to see if a username has been submitted in the login form
+			$user = $this->getRequestUserName();
+			$userName = $user->getUserName();
 
-		if ($userName == NULL) {
-			$message = 'Username is missing';
+			if ($userName == NULL) {
+				$message = 'Username is missing';
+			}
+			//TO DO: Move the submitted username to the form instead (test case 1.3)
+			else {
+				$message = 'You submitted the username ' . $userName;
+			}
 		}
-		//TO DO: Move the submitted username to the form instead (test case 1.3)
-		else {
-			$message = 'You submitted the username ' . $userName;
-		}
-
 
 		$response = $this->generateLoginFormHTML($message);
 		//$response .= $this->generateLogoutButtonHTML($message);
@@ -90,6 +81,10 @@ class LoginView {
 				</fieldset>
 			</form>
 		';
+	}
+
+	private function userHasTriedToLogIn() : bool {
+		return isset($_REQUEST[self::$name]);
 	}
 
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
