@@ -20,8 +20,18 @@ class LoginView {
 	 */
 	public function response() {
 
-		$message = '';
+		$message = $this->generateMessage();
 
+		$response = $this->generateLoginFormHTML($message);
+		//$response .= $this->generateLogoutButtonHTML($message);
+		return $response;
+	}
+
+	/**
+	* Generate message that will be shown in the login form
+	*/
+	private function generateMessage() : string {
+		$ret = "";
 		//Checking to see if the form has been submitted
 		if ($this->userHasTriedToLogIn()) {
 			//Checking to see if a username has been submitted in the login form
@@ -29,17 +39,14 @@ class LoginView {
 			$userName = $user->getUserName();
 
 			if ($userName == NULL) {
-				$message = 'Username is missing';
+				$ret = 'Username is missing';
 			}
 			//TO DO: Move the submitted username to the form instead (test case 1.3)
 			else {
-				$message = 'You submitted the username ' . $userName;
+				$ret = 'You submitted the username ' . $userName;
 			}
 		}
-
-		$response = $this->generateLoginFormHTML($message);
-		//$response .= $this->generateLogoutButtonHTML($message);
-		return $response;
+		return $ret;
 	}
 
 	/**
