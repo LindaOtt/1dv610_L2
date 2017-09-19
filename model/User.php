@@ -6,7 +6,7 @@ class User {
   private $userName;
 
   function __construct($formLoginName) {
-    $userName = $formLoginName;
+    $this->userName = $formLoginName;
   }
 
   function getUserName() {
