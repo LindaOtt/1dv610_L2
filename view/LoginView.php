@@ -11,6 +11,10 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
+	//Variables for the values in the input fieldset
+	private $nameValue = '';
+	private $passwordValue = '';
+
 	/**
 	 * Create HTTP response
 	 *
@@ -34,16 +38,24 @@ class LoginView {
 		$ret = "";
 		//Checking to see if the form has been submitted
 		if ($this->userHasTriedToLogIn()) {
-			//Checking to see if a username has been submitted in the login form
-			$user = $this->getRequestUserName();
+
+			//Create a user object with the details from the submitted form
+			$user = $this->getRequestSubmitDetails();
+
 			$userName = $user->getUserName();
+			$userPassword = $user->getPassword();
 
 			if ($userName == NULL) {
 				$ret = 'Username is missing';
 			}
 			//TO DO: Move the submitted username to the form instead (test case 1.3)
 			else {
-				$ret = 'You submitted the username ' . $userName;
+				if ($userPassword == NULL) {
+					$ret = 'Password is missing';
+				}
+				else {
+					$ret = 'You submitted the username ' . $userName;
+				}
 			}
 		}
 		return $ret;
@@ -76,7 +88,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'. $this->nameValue .'" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -94,17 +106,23 @@ class LoginView {
 		return isset($_REQUEST[self::$name]);
 	}
 
-	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() : \model\User {
+	private function getRequestSubmitDetails() : \model\User {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
-			$retName = $_REQUEST[self::$name];
+			$this->nameValue = $_REQUEST[self::$name];
 		}
 		else {
-			$retName = NULL;
+			$this->nameValue = NULL;
 		}
-		//TO DO: Check that $retName is in the correct format
-		return new \model\User($retName);
+
+		if (isset($_REQUEST[self::$password])) {
+			$this->passwordValue = $_REQUEST[self::$password];
+		}
+		else {
+			$this->passwordValue = NULL;
+		}
+		//TO DO: Check that $retName and $retPassword are in the correct format
+		return new \model\User($this->nameValue, $this->passwordValue);
 	}
 
 }

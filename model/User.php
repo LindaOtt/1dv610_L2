@@ -3,13 +3,19 @@
 namespace model;
 
 class User {
-  private $userName;
+  private $username;
+  private $password;
 
-  function __construct($formLoginName) {
-    $this->userName = $formLoginName;
+  function __construct($formLoginName, $formPassword) {
+    $this->username = $formLoginName;
+    $this->password = $formPassword;
   }
 
   function getUserName() {
-    return $this->userName;
+    return $this->username;
+  }
+
+  function getPassword() {
+    return $this->password;
   }
 }
