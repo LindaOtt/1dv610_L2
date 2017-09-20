@@ -42,8 +42,8 @@ class LoginView {
 			//Create a user object with the details from the submitted form
 			$user = $this->getRequestSubmitDetails();
 
-			$userName = $user->getUserName();
-			$userPassword = $user->getPassword();
+			$userName = $user->getSubmitUserName();
+			$userPassword = $user->getSubmitPassword();
 
 			if ($userName == NULL) {
 				$ret = 'Username is missing';

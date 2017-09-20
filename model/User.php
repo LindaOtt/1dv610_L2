@@ -3,19 +3,27 @@
 namespace model;
 
 class User {
-  private $username;
-  private $password;
+  private $submitUsername;
+  private $submitPassword;
+  private $correctUserName;
+  private $correctPassword;
 
   function __construct($formLoginName, $formPassword) {
-    $this->username = $formLoginName;
-    $this->password = $formPassword;
+    //Setting the username and password from the submitted form
+    $this->submitUsername = $formLoginName;
+    $this->submitPassword = $formPassword;
+
+    //Getting the correct username and password from the settings file
+    $settings = parse_ini_file('./settings/settings.ini');
+    $this->correctUserName = $settings['user'];
+    $this->correctPassword = $settings['password'];
   }
 
-  function getUserName() {
-    return $this->username;
+  function getSubmitUserName() {
+    return $this->submitUsername;
   }
 
-  function getPassword() {
-    return $this->password;
+  function getSubmitPassword() {
+    return $this->submitPassword;
   }
 }
