@@ -49,7 +49,7 @@ class User {
   * Check that the submitted username matches the username in the settings file
   */
   function userNameIsCorrect() {
-    if ($this->submitUsername == $this->userName) {
+    if ($this->submitUsername == $this->correctUserName) {
       return true;
     }
     return false;
