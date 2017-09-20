@@ -26,4 +26,33 @@ class User {
   function getSubmitPassword() {
     return $this->submitPassword;
   }
+
+  function getCorrectUserName() {
+    return $this->correctUserName;
+  }
+
+  function getCorrectPassword() {
+    return $this->correctPassword;
+  }
+
+  /**
+  * Check that the submitted password matches the password in the settings file
+  */
+  function passwordIsCorrect() {
+    if ($this->submitPassword == $this->correctPassword) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+  * Check that the submitted username matches the username in the settings file
+  */
+  function userNameIsCorrect() {
+    if ($this->submitUsername == $this->userName) {
+      return true;
+    }
+    return false;
+  }
+
 }

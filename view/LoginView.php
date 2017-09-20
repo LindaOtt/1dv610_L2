@@ -33,13 +33,16 @@ class LoginView {
 
 	/**
 	* Generate message that will be shown in the login form
+	* TO DO: Simplify function
 	*/
 	private function generateMessage() : string {
 		$ret = "";
 		//Checking to see if the form has been submitted
 		if ($this->userHasTriedToLogIn()) {
 
-			//Create a user object with the details from the submitted form
+			/* User object that contains the submitted username and password
+			* and the correct username and password
+			*/
 			$user = $this->getRequestSubmitDetails();
 
 			$userName = $user->getSubmitUserName();
@@ -48,13 +51,18 @@ class LoginView {
 			if ($userName == NULL) {
 				$ret = 'Username is missing';
 			}
-			//TO DO: Move the submitted username to the form instead (test case 1.3)
 			else {
 				if ($userPassword == NULL) {
 					$ret = 'Password is missing';
 				}
 				else {
-					$ret = 'You submitted the username ' . $userName;
+					//Check that password is correct
+					if ($user->passwordIsCorrect() && $user->userNameIsCorrect()) {
+						$ret = 'You submitted the username ' . $userName . 'and the password ' . $passWord;
+					}
+					else {
+						$ret = 'Wrong name or password';
+					}
 				}
 			}
 		}
@@ -106,6 +114,7 @@ class LoginView {
 		return isset($_REQUEST[self::$name]);
 	}
 
+	//TO DO: Simplify function (NULL values)
 	private function getRequestSubmitDetails() : \model\User {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
