@@ -55,4 +55,13 @@ class User {
     return false;
   }
 
+  function isLoggedIn() : bool {
+    if ($this->passwordIsCorrect() && $this->userNameIsCorrect()) {
+      return true;
+    }
+    return false;
+  }
+
+
+
 }

@@ -11,7 +11,9 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	//Variables for the values in the input fieldset
+	private $user;
+
+
 	private $nameValue = '';
 	private $passwordValue = '';
 
@@ -37,14 +39,13 @@ class LoginView {
 	*/
 	private function generateMessage() : string {
 		$ret = "";
-		//Checking to see if the form has been submitted
-		if ($this->userHasTriedToLogIn()) {
 
 			/* User object that contains the submitted username and password
 			* and the correct username and password
 			*/
-			$user = $this->getRequestSubmitDetails();
 
+			/*
+			$user = $this->user;
 			$userName = $user->getSubmitUserName();
 			$userPassword = $user->getSubmitPassword();
 
@@ -58,14 +59,15 @@ class LoginView {
 				else {
 					//Check that password is correct
 					if ($user->passwordIsCorrect() && $user->userNameIsCorrect()) {
-						$ret = 'You submitted the username ' . $userName . 'and the password ' . $passWord;
+						$ret = 'Welcome';
 					}
 					else {
 						$ret = 'Wrong name or password';
 					}
 				}
 			}
-		}
+
+		}*/
 		return $ret;
 	}
 
@@ -110,12 +112,8 @@ class LoginView {
 		';
 	}
 
-	private function userHasTriedToLogIn() : bool {
-		return isset($_REQUEST[self::$name]);
-	}
-
 	//TO DO: Simplify function (NULL values)
-	private function getRequestSubmitDetails() : \model\User {
+	public function createUser() : \model\User {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
 			$this->nameValue = $_REQUEST[self::$name];
@@ -130,8 +128,8 @@ class LoginView {
 		else {
 			$this->passwordValue = NULL;
 		}
+
 		//TO DO: Check that $retName and $retPassword are in the correct format
 		return new \model\User($this->nameValue, $this->passwordValue);
 	}
-
 }
