@@ -12,8 +12,8 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 
 	private $user;
-	private $nameValue = NULL;
-	private $passwordValue = NULL;
+	private $nameValue = '';
+	private $passwordValue = '';
 	private $message = '';
 
 	/**
@@ -27,47 +27,35 @@ class LoginView {
 
 		//Check if a login attempt has been made
 		if ($this->hasTriedToLogin()) {
-			$this->message = $this->generateMessage();
-		}
-
-		$response = $this->generateLoginFormHTML($this->message);
-		//$response .= $this->generateLogoutButtonHTML($message);
-		return $response;
-	}
-
-	/**
-	* Generate message that will be shown in the login form
-	* TO DO: Simplify function
-	*/
-	private function generateMessage() : string {
-		$ret = "";
-
 			/* Create new user object that contains the submitted username and password
 			* and the correct username and password
 			*/
 			$user = $this->createUser();
 			$userName = $user->getSubmitUserName();
 			$userPassword = $user->getSubmitPassword();
+			$response = '';
 
-			if ($userName == NULL) {
-				$ret = 'Username is missing';
+			if ($user->isLoggedIn()) {
+				$message = 'Welcome';
+				$response = $this->generateLogoutButtonHTML($message);
 			}
 			else {
-				if ($userPassword == NULL) {
-					$ret = 'Password is missing';
+				if ($userName == '') {
+					$message = 'Username is missing';
+				}
+				else if ($userPassword == '') {
+					$message = 'Password is missing';
 				}
 				else {
-					//Check that password is correct
-					if ($user->passwordIsCorrect() && $user->userNameIsCorrect()) {
-						$ret = 'Welcome';
-					}
-					else {
-						$ret = 'Wrong name or password';
-					}
+					$message = 'Wrong name or password';
 				}
+				$response = $this->generateLoginFormHTML($message);
 			}
-
-		return $ret;
+		}
+		else {
+			$response = $this->generateLoginFormHTML($this->message);
+		}
+		return $response;
 	}
 
 	/**
@@ -124,20 +112,10 @@ class LoginView {
 		if (isset($_REQUEST[self::$name])) {
 			$this->nameValue = $_REQUEST[self::$name];
 		}
-		/*
-		else {
-			$this->nameValue = NULL;
-		}
-		*/
 
 		if (isset($_REQUEST[self::$password])) {
 			$this->passwordValue = $_REQUEST[self::$password];
 		}
-		/*
-		else {
-			$this->passwordValue = NULL;
-		}
-		*/
 
 		//TO DO: Check that $retName and $retPassword are in the correct format
 		return new \model\User($this->nameValue, $this->passwordValue);
