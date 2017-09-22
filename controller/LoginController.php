@@ -23,24 +23,5 @@ class LoginController {
       $lv->render(false, $v, $dtv);
     }
 
-
-    /*
-    //Checking to see if user has logged in
-    if ($v->userHasTriedToLogIn()) {
-      //Create a user object with login username and password, and correct username and password
-      $user = $v->createUser();
-      //Send the user into the login view
-      $v->setUser($user);
-
-      //Let the user object check if it is logged in
-      if ($user->isLoggedIn()) {
-        $lv->render(true, $v, $dtv);
-      }
-      else {
-        $lv->render(false, $v, $dtv);
-      }
-    }
-    */
-
   }
 }

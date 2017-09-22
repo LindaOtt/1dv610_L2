@@ -12,10 +12,9 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 
 	private $user;
-
-
-	private $nameValue = '';
-	private $passwordValue = '';
+	private $nameValue = NULL;
+	private $passwordValue = NULL;
+	private $message = '';
 
 	/**
 	 * Create HTTP response
@@ -26,9 +25,12 @@ class LoginView {
 	 */
 	public function response() {
 
-		$message = $this->generateMessage();
+		//Check if a login attempt has been made
+		if ($this->hasTriedToLogin()) {
+			$this->message = $this->generateMessage();
+		}
 
-		$response = $this->generateLoginFormHTML($message);
+		$response = $this->generateLoginFormHTML($this->message);
 		//$response .= $this->generateLogoutButtonHTML($message);
 		return $response;
 	}
@@ -40,12 +42,10 @@ class LoginView {
 	private function generateMessage() : string {
 		$ret = "";
 
-			/* User object that contains the submitted username and password
+			/* Create new user object that contains the submitted username and password
 			* and the correct username and password
 			*/
-
-			/*
-			$user = $this->user;
+			$user = $this->createUser();
 			$userName = $user->getSubmitUserName();
 			$userPassword = $user->getSubmitPassword();
 
@@ -67,7 +67,6 @@ class LoginView {
 				}
 			}
 
-		}*/
 		return $ret;
 	}
 
@@ -112,22 +111,33 @@ class LoginView {
 		';
 	}
 
+	public function hasTriedToLogIn() : bool {
+		if (isset($_REQUEST[self::$name]) || isset($_REQUEST[self::$password])) {
+			return true;
+		}
+		return false;
+	}
+
 	//TO DO: Simplify function (NULL values)
 	public function createUser() : \model\User {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
 			$this->nameValue = $_REQUEST[self::$name];
 		}
+		/*
 		else {
 			$this->nameValue = NULL;
 		}
+		*/
 
 		if (isset($_REQUEST[self::$password])) {
 			$this->passwordValue = $_REQUEST[self::$password];
 		}
+		/*
 		else {
 			$this->passwordValue = NULL;
 		}
+		*/
 
 		//TO DO: Check that $retName and $retPassword are in the correct format
 		return new \model\User($this->nameValue, $this->passwordValue);
