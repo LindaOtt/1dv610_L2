@@ -14,12 +14,19 @@ class User {
   private $correctUserName;
   private $correctPassword;
 
+  private $userLogin;
+  private $sessionUserName;
+  private $sessionPassword;
+
   private static $LOGIN_SESSION_ID = "model::User::userLogin";
-	private $userLogin;
+  private static $LOGIN_NAME = "model::User::sessionUserName";
+  private static $LOGIN_PASSWORD = "model::User::sessionPassword";
+
 
   function __construct($formLoginName, $formPassword) {
-    //To do: Add assert to check that session is started
-    //Setting the username and password from the submitted form
+    assert(session_status() != PHP_SESSION_NONE);
+
+    //Setting the username and password
     $this->submitUsername = $formLoginName;
     $this->submitPassword = $formPassword;
 
@@ -27,6 +34,10 @@ class User {
     $settings = parse_ini_file('./settings/settings.ini');
     $this->correctUserName = $settings['user'];
     $this->correctPassword = $settings['password'];
+
+    $this->submitUsername = $formLoginName;
+    $this->submitPassword = $formPassword;
+
   }
 
   function getSubmitUserName() {
@@ -65,21 +76,35 @@ class User {
     return false;
   }
 
-  function isLoggedIn() : bool {
-    //Is the user already logged in?
-    if ($this->sessionHasLogin()) {
+  function isLoggedInWithSession() : bool {
+    if ($this->sessionHasLogIn()) {
       return true;
     }
-    else {
-      if ($this->passwordIsCorrect() && $this->userNameIsCorrect()) {
+    return false;
+  }
+
+  function loginDetailsAreCorrect() : bool {
+      if ($this->loginIsCorrect()) {
+        $this->createLoginSession();
         return true;
       }
     }
     return false;
   }
 
-  function sessionHasLogin() {
+  function loginIsCorrect() : bool {
+    if ($this->passwordIsCorrect() && $this->userNameIsCorrect()) {
+      return true;
+    }
+    return false;
+  }
+
+  function sessionHasLogIn() {
 		return isset ($_SESSION[self::$LOGIN_SESSION_ID]) == true;
+  }
+
+  function createLoginSession() {
+    $_SESSION[self::$LOGIN_SESSION_ID] = true;
   }
 
 }

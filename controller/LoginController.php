@@ -16,7 +16,7 @@ class LoginController {
 
   public function runLoginSystem() {
     //Let the user object check if it is logged in
-    if ($this->user->isLoggedIn()) {
+    if ($this->user->isLoggedInWithSession() || $this->user->loginDetailsAreCorrect()) {
       $this->layoutView->render(true, $this->user, $this->loginView, $this->dateTimeView);
     }
     else {

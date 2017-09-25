@@ -20,7 +20,7 @@ $dateTimeView = new \view\DateTimeView();
 $loginView = new \view\LoginView();
 
 //Get the user object from the login view
-$user = $loginView->createUserFromLoginForm();
+$user = $loginView->createUser();
 
 $controller = new \controller\LoginController($user, $layoutView, $loginView, $dateTimeView);
 $controller->runLoginSystem();

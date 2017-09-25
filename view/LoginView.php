@@ -21,29 +21,23 @@ class LoginView {
 	 * Should be called after a login attempt has been determined
 	 *
 	 * @return  void BUT writes to standard output and cookies!
+	 * TO DO: Simplify function
 	 */
 	public function response(\model\User $user) {
-
-		//Check if there is already a login session
-		if ($user->sessionHasLogin()) {
-
-		}
+		$response = '';
 
 		//Check if a login attempt has been made
-		if ($this->hasTriedToLogin()) {
-			/* Create new user object that contains the submitted username and password
-			* and the correct username and password
-			*/
-			$user = $this->createUserFromLoginForm();
-			$userName = $user->getSubmitUserName();
-			$userPassword = $user->getSubmitPassword();
-			$response = '';
-
-			if ($user->isLoggedIn()) {
+		if ($user->isLoggedInWithSession()) {
+			$response = $this->generateLogoutButtonHTML($message);
+		}
+		else if ($this->hasTriedToLogin()) {
+			if ($user->loginDetailsAreCorrect()) {
 				$message = 'Welcome';
 				$response = $this->generateLogoutButtonHTML($message);
 			}
 			else {
+				$userName = $user->getSubmitUserName();
+				$userPassword = $user->getSubmitPassword();
 				if ($userName == '') {
 					$message = 'Username is missing';
 				}
@@ -110,8 +104,7 @@ class LoginView {
 		return false;
 	}
 
-	//TO DO: Simplify function (NULL values)
-	public function createUserFromLoginForm() : \model\User {
+	public function createUser() : \model\User {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
 			$this->nameValue = $_REQUEST[self::$name];
