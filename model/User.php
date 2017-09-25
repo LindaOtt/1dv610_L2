@@ -88,7 +88,6 @@ class User {
         $this->createLoginSession();
         return true;
       }
-    }
     return false;
   }
 
@@ -106,5 +105,6 @@ class User {
   function createLoginSession() {
     $_SESSION[self::$LOGIN_SESSION_ID] = true;
   }
+
 
 }

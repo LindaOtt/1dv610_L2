@@ -28,26 +28,26 @@ class LoginView {
 
 		//Check if a login attempt has been made
 		if ($user->isLoggedInWithSession()) {
-			$response = $this->generateLogoutButtonHTML($message);
+			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		else if ($this->hasTriedToLogin()) {
 			if ($user->loginDetailsAreCorrect()) {
-				$message = 'Welcome';
-				$response = $this->generateLogoutButtonHTML($message);
+				$this->message = 'Welcome';
+				$response = $this->generateLogoutButtonHTML($this->message);
 			}
 			else {
 				$userName = $user->getSubmitUserName();
 				$userPassword = $user->getSubmitPassword();
 				if ($userName == '') {
-					$message = 'Username is missing';
+					$this->message = 'Username is missing';
 				}
 				else if ($userPassword == '') {
-					$message = 'Password is missing';
+					$this->message = 'Password is missing';
 				}
 				else {
-					$message = 'Wrong name or password';
+					$this->message = 'Wrong name or password';
 				}
-				$response = $this->generateLoginFormHTML($message);
+				$response = $this->generateLoginFormHTML($this->message);
 			}
 		}
 		else {
