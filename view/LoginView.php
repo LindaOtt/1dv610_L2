@@ -11,7 +11,6 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	private $user;
 	private $nameValue = '';
 	private $passwordValue = '';
 	private $message = '';
@@ -23,14 +22,19 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response() {
+	public function response(\model\User $user) {
+
+		//Check if there is already a login session
+		if ($user->sessionHasLogin()) {
+
+		}
 
 		//Check if a login attempt has been made
 		if ($this->hasTriedToLogin()) {
 			/* Create new user object that contains the submitted username and password
 			* and the correct username and password
 			*/
-			$user = $this->createUser();
+			$user = $this->createUserFromLoginForm();
 			$userName = $user->getSubmitUserName();
 			$userPassword = $user->getSubmitPassword();
 			$response = '';
@@ -107,7 +111,7 @@ class LoginView {
 	}
 
 	//TO DO: Simplify function (NULL values)
-	public function createUser() : \model\User {
+	public function createUserFromLoginForm() : \model\User {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
 			$this->nameValue = $_REQUEST[self::$name];

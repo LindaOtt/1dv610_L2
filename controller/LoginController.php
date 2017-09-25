@@ -2,26 +2,26 @@
 namespace controller;
 
 class LoginController {
+  private $user;
+  private $layoutView;
+  private $loginView;
+  private $dateTimeView;
+
+  function __construct(\model\User $user, \view\LayoutView $layoutView, \view\LoginView $loginView, \view\DateTimeView $dateTimeView) {
+    $this->user = $user;
+    $this->layoutView = $layoutView;
+    $this->loginView = $loginView;
+    $this->dateTimeView = $dateTimeView;
+  }
 
   public function runLoginSystem() {
-
-    //Create main layout view and datetime view
-    $lv = new \view\LayoutView();
-    $dtv = new \view\DateTimeView();
-
-    //Create the loginview
-    $v = new \view\LoginView();
-
-    //Get the user object from the login view
-    $user = $v->createUser();
-
     //Let the user object check if it is logged in
-    if ($user->isLoggedIn()) {
-      $lv->render(true, $v, $dtv);
+    if ($this->user->isLoggedIn()) {
+      $this->layoutView->render(true, $this->user, $this->loginView, $this->dateTimeView);
     }
     else {
-      $lv->render(false, $v, $dtv);
+      $this->layoutView->render(false, $this->user, $this->loginView, $this->dateTimeView);
     }
-
   }
+
 }

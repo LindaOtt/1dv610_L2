@@ -3,7 +3,6 @@ namespace view;
 
 class DateTimeView {
 
-
 	public function showDateAndTime() {
 		date_default_timezone_set('Europe/Stockholm');
 		//Todays date is shown as: [Day of week], the [day of month numeric]th of
