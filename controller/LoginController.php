@@ -16,6 +16,7 @@ class LoginController {
 
   public function runLoginSystem() {
     //Let the user object check if it is logged in
+    //To do: If the user is logged in with form, let the user create a session
     if ($this->user->isLoggedInWithSession() || $this->user->loginDetailsAreCorrect()) {
       $this->layoutView->render(true, $this->user, $this->loginView, $this->dateTimeView);
     }

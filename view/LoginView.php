@@ -14,6 +14,18 @@ class LoginView {
 	private $nameValue = '';
 	private $passwordValue = '';
 	private $message = '';
+	private $hasJustTriedToLogIn = false;
+
+	function __construct() {
+		$this->hasJustTriedToLogIn = hasJustTriedToLogIn();
+	}
+
+	public function hasJustLoggedInCorrectly(\model\User $user) : bool {
+		if ($this->hasJustTriedToLogin() && $user->loginDetailsAreCorrect()) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Create HTTP response
@@ -26,8 +38,13 @@ class LoginView {
 	public function response(\model\User $user) {
 		$response = '';
 
+
 		//Check if a login attempt has been made
+		/*
 		if ($user->isLoggedInWithSession()) {
+			if ($this->hasTriedToLogin()) {
+				$this->message = "Welcome";
+			}
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		else if ($this->hasTriedToLogin()) {
@@ -53,6 +70,7 @@ class LoginView {
 		else {
 			$response = $this->generateLoginFormHTML($this->message);
 		}
+		*/
 		return $response;
 	}
 
@@ -97,11 +115,8 @@ class LoginView {
 		';
 	}
 
-	public function hasTriedToLogIn() : bool {
-		if (isset($_REQUEST[self::$name]) || isset($_REQUEST[self::$password])) {
-			return true;
-		}
-		return false;
+	public function hasJustTriedToLogIn() : bool {
+		return (isset($_REQUEST[self::$name]) || isset($_REQUEST[self::$password])) == true;
 	}
 
 	public function createUser() : \model\User {
@@ -115,6 +130,6 @@ class LoginView {
 		}
 
 		//TO DO: Check that $retName and $retPassword are in the correct format
-		return new \model\User($this->nameValue, $this->passwordValue);
+		return new \model\User($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn);
 	}
 }
