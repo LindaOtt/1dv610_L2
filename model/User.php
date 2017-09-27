@@ -1,5 +1,4 @@
 <?php
-//To do: Let model keep session state
 //$loggedInUser, $isThereALoggedInUser
 //Add md5-hash encryption and salt when saving usernames and passwords
 //Add salt to settings file
@@ -21,17 +20,21 @@ class User {
   private $userNameMissing = false;
   private $passwordMissing = false;
   private $hasJustTriedToLogIn = false;
+  private $hasLoggedOut = false;
 
   private static $LOGIN_SESSION_ID = "model::User::userLogin";
   private static $LOGIN_NAME = "model::User::sessionUserName";
   private static $LOGIN_PASSWORD = "model::User::sessionPassword";
 
 
-  function __construct($formLoginName, $formPassword, $hasJustTriedToLogin) {
+  function __construct($formLoginName, $formPassword, $hasJustTriedToLogin, $hasLoggedOut) {
     assert(session_status() != PHP_SESSION_NONE);
 
     //Setting whether the login form has just been submitted
     $this->hasJustTriedToLogin = $hasJustTriedToLogin;
+
+    //Setting whether the user has logged out
+    $this->hasLoggedOut = $hasLoggedOut;
 
     //Setting the username and password
     $this->submitUsername = $formLoginName;
@@ -63,6 +66,10 @@ class User {
     return $this->isLoggedInWithSession;
   }
 
+  function setIsLoggedInWithSession($isLoggedInWithSession) {
+    $this->isLoggedInWithSession = false;
+  }
+
   function getIsLoggedInWithForm() {
     return $this->isLoggedInWithForm;
   }
@@ -79,6 +86,10 @@ class User {
     return $this->hasJustTriedToLogin;
   }
 
+  function getHasLoggedOut() {
+    return $this->hasLoggedOut;
+  }
+
   function isUserNameMissing() {
     return $this->submitUsername == '';
   }
@@ -86,25 +97,6 @@ class User {
   function isPasswordMissing() {
     return $this->submitPassword == '';
   }
-
-  /*
-
-  function getSubmitUserName() {
-    return $this->submitUsername;
-  }
-
-  function getSubmitPassword() {
-    return $this->submitPassword;
-  }
-
-  function getCorrectUserName() {
-    return $this->correctUserName;
-  }
-
-  function getCorrectPassword() {
-    return $this->correctPassword;
-  }
-  */
 
   /**
   * Check that the submitted username matches the username in the settings file
@@ -136,5 +128,8 @@ class User {
     $_SESSION[self::$LOGIN_SESSION_ID] = true;
   }
 
+  function terminateLoginSession() {
+    unset($_SESSION[self::$LOGIN_SESSION_ID]);
+  }
 
 }

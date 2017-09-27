@@ -15,17 +15,21 @@ class LoginView {
 	private $passwordValue = '';
 	private $message = '';
 	private $hasJustTriedToLogIn = false;
+	private $hasLoggedOut = false;
 
 	function __construct() {
 		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
+		$this->hasLoggedOut = $this->hasLoggedOut();
 	}
 
+	/*
 	public function hasJustLoggedInCorrectly(\model\User $user) : bool {
 		if ($this->hasJustTriedToLogin() && $user->loginDetailsAreCorrect()) {
 			return true;
 		}
 		return false;
 	}
+	*/
 
 	/**
 	 * Create HTTP response
@@ -56,42 +60,14 @@ class LoginView {
 			}
 			$response = $this->generateLoginFormHTML($this->message);
 		}
+		else if ($user->getHasLoggedOut()) {
+			$this->message = 'Bye bye!';
+			$response = $this->generateLoginFormHTML($this->message);
+		}
 		else {
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 
-		//Check if a login attempt has been made
-		/*
-		if ($user->isLoggedInWithSession()) {
-			if ($this->hasTriedToLogin()) {
-				$this->message = "Welcome";
-			}
-			$response = $this->generateLogoutButtonHTML($this->message);
-		}
-		else if ($this->hasTriedToLogin()) {
-			if ($user->loginDetailsAreCorrect()) {
-				$this->message = 'Welcome';
-				$response = $this->generateLogoutButtonHTML($this->message);
-			}
-			else {
-				$userName = $user->getSubmitUserName();
-				$userPassword = $user->getSubmitPassword();
-				if ($userName == '') {
-					$this->message = 'Username is missing';
-				}
-				else if ($userPassword == '') {
-					$this->message = 'Password is missing';
-				}
-				else {
-					$this->message = 'Wrong name or password';
-				}
-				$response = $this->generateLoginFormHTML($this->message);
-			}
-		}
-		else {
-			$response = $this->generateLoginFormHTML($this->message);
-		}
-		*/
 		return $response;
 	}
 
@@ -140,6 +116,16 @@ class LoginView {
 		return (isset($_REQUEST[self::$name]) || isset($_REQUEST[self::$password])) == true;
 	}
 
+	public function hasLoggedOut() : bool {
+		//return (isset($_REQUEST[self::$messageId])) == true;
+		if (isset($_REQUEST[self::$logout])) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public function createUser() : \model\User {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
@@ -151,6 +137,6 @@ class LoginView {
 		}
 
 		//TO DO: Check that $retName and $retPassword are in the correct format
-		return new \model\User($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn);
+		return new \model\User($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut);
 	}
 }
