@@ -17,7 +17,7 @@ class LoginView {
 	private $hasJustTriedToLogIn = false;
 
 	function __construct() {
-		$this->hasJustTriedToLogIn = hasJustTriedToLogIn();
+		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
 	}
 
 	public function hasJustLoggedInCorrectly(\model\User $user) : bool {
@@ -37,7 +37,28 @@ class LoginView {
 	 */
 	public function response(\model\User $user) {
 		$response = '';
-
+		if ($user->getIsLoggedInWithSession()) {
+			$response = $this->generateLogoutButtonHTML($this->message);
+		}
+		else if ($user->getHasJustTriedToLogin() && $user->getIsLoggedInWithForm()) {
+			$this->message = 'Welcome';
+			$response = $this->generateLogoutButtonHTML($this->message);
+		}
+		else if ($user->getHasJustTriedToLogin()) {
+			if ($user->getUserNameMissing()) {
+				$this->message = 'Username is missing';
+			}
+			else if ($user->getPasswordMissing()) {
+				$this->message = 'Password is missing';
+			}
+			else {
+				$this->message = 'Wrong name or password';
+			}
+			$response = $this->generateLoginFormHTML($this->message);
+		}
+		else {
+			$response = $this->generateLoginFormHTML($this->message);
+		}
 
 		//Check if a login attempt has been made
 		/*

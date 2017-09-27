@@ -17,10 +17,10 @@ class User {
   private $sessionUserName;
   private $sessionPassword;
   private $isLoggedInWithSession = false;
+  private $isLoggedInWithForm = false;
   private $userNameMissing = false;
   private $passwordMissing = false;
   private $hasJustTriedToLogIn = false;
-  private $wrongUserNameOrPassword = false;
 
   private static $LOGIN_SESSION_ID = "model::User::userLogin";
   private static $LOGIN_NAME = "model::User::sessionUserName";
@@ -52,10 +52,31 @@ class User {
 
   function checkLoginState() {
     $this->isLoggedInWithSession = $this->isLoggedInWithSession();
-    $this->isLoggedInWithForm = $this->isLoggedInWithForm();
+    if ($this->hasJustTriedToLogin) {
+      $this->isLoggedInWithForm = $this->isLoggedInWithForm();
+    }
     $this->userNameMissing = $this->isUserNameMissing();
     $this->passwordMissing = $this->isPasswordMissing();
-    $this->wrongUserNameOrPassword = $this->WrongUserNameOrPassword();
+  }
+
+  function getIsLoggedInWithSession() {
+    return $this->isLoggedInWithSession;
+  }
+
+  function getIsLoggedInWithForm() {
+    return $this->isLoggedInWithForm;
+  }
+
+  function getUserNameMissing() {
+    return $this->userNameMissing;
+  }
+
+  function getPasswordMissing() {
+    return $this->passwordMissing;
+  }
+
+  function getHasJustTriedToLogIn() {
+    return $this->hasJustTriedToLogin;
   }
 
   function isUserNameMissing() {
@@ -65,6 +86,8 @@ class User {
   function isPasswordMissing() {
     return $this->submitPassword == '';
   }
+
+  /*
 
   function getSubmitUserName() {
     return $this->submitUsername;
@@ -81,13 +104,7 @@ class User {
   function getCorrectPassword() {
     return $this->correctPassword;
   }
-
-  /**
-  * Check that the submitted password matches the password in the settings file
   */
-  function passwordIsCorrect() {
-    return ($this->submitPassword == $this->correctPassword) == true;
-  }
 
   /**
   * Check that the submitted username matches the username in the settings file
@@ -96,20 +113,23 @@ class User {
     return ($this->submitUsername == $this->correctUserName) == true;
   }
 
+  /**
+  * Check that the submitted password matches the password in the settings file
+  */
+  function passwordIsCorrect() {
+    return ($this->submitPassword == $this->correctPassword) == true;
+  }
+
+  function loginIsCorrect() {
+    return ($this->userNameIsCorrect() && $this->passwordIsCorrect()) == true;
+  }
+
   function isLoggedInWithSession() {
     return isset ($_SESSION[self::$LOGIN_SESSION_ID]) == true;
   }
 
   function isLoggedInWithForm() {
-    return ($this->loginIsCorrect()) {
-        $this->createLoginSession();
-        return true;
-      }
-    return false;
-  }
-
-  function WrongUserNameOrPassword() : bool {
-    return ($this->passwordIsCorrect() && $this->userNameIsCorrect()) == true;
+    return ($this->loginIsCorrect()) == true;
   }
 
   function createLoginSession() {
