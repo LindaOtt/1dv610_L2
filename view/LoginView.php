@@ -61,7 +61,12 @@ class LoginView {
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 		else if ($user->getHasLoggedOut()) {
-			$this->message = 'Bye bye!';
+			if ($user->getHasLoggedOutWithoutSession()) {
+				$this->message = '';
+			}
+			else {
+				$this->message = 'Bye bye!';
+			}
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 		else {
@@ -117,13 +122,7 @@ class LoginView {
 	}
 
 	public function hasLoggedOut() : bool {
-		//return (isset($_REQUEST[self::$messageId])) == true;
-		if (isset($_REQUEST[self::$logout])) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (isset($_REQUEST[self::$logout])) == true;
 	}
 
 	public function createUser() : \model\User {

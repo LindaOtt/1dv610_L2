@@ -21,6 +21,7 @@ class User {
   private $passwordMissing = false;
   private $hasJustTriedToLogIn = false;
   private $hasLoggedOut = false;
+  private $hasLoggedOutWithoutSession = false;
 
   private static $LOGIN_SESSION_ID = "model::User::userLogin";
   private static $LOGIN_NAME = "model::User::sessionUserName";
@@ -68,6 +69,14 @@ class User {
 
   function setIsLoggedInWithSession($isLoggedInWithSession) {
     $this->isLoggedInWithSession = false;
+  }
+
+  function getHasLoggedOutWithoutSession() {
+    return $this->hasLoggedOutWithoutSession;
+  }
+
+  function setHasLoggedOutWithoutSession($hasLoggedOutWithoutSession) {
+    $this->hasLoggedOutWithoutSession = $hasLoggedOutWithoutSession;
   }
 
   function getIsLoggedInWithForm() {
