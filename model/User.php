@@ -158,9 +158,9 @@ class User {
   }
 
   function terminateLoginSession() {
-    unset($_SESSION['self::$LOGIN_SESSION_ID']);
-    unset($_SESSION['self::$COOKIE_NAME']);
-    unset($_SESSION['self::$COOKIE_PASSWORD']);
+    unset($_SESSION[self::$LOGIN_SESSION_ID]);
+    unset($_SESSION[self::$COOKIE_NAME]);
+    unset($_SESSION[self::$COOKIE_PASSWORD]);
   }
 
 }

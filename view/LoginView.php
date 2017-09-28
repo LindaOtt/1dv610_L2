@@ -59,7 +59,7 @@ class LoginView {
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 		else if ($user->getHasLoggedOut()) {
-			if ($user->getHasLoggedOutWithoutSession()) {
+			if ($user->getHasLoggedOutWithoutSession() == true) {
 				$this->message = '';
 			}
 			else {
