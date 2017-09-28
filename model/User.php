@@ -22,13 +22,14 @@ class User {
   private $hasJustTriedToLogIn = false;
   private $hasLoggedOut = false;
   private $hasLoggedOutWithoutSession = false;
+  private $keepUserLoggedIn = false;
 
   private static $LOGIN_SESSION_ID = "model::User::userLogin";
-  private static $LOGIN_NAME = "model::User::sessionUserName";
-  private static $LOGIN_PASSWORD = "model::User::sessionPassword";
+  private static $COOKIE_NAME = "model::User::CookieName";
+  private static $COOKIE_PASSWORD = "model::User::CookiePassword";
 
 
-  function __construct($formLoginName, $formPassword, $hasJustTriedToLogin, $hasLoggedOut) {
+  function __construct($formLoginName, $formPassword, $hasJustTriedToLogin, $hasLoggedOut, $keepUserLoggedIn) {
     assert(session_status() != PHP_SESSION_NONE);
 
     //Setting whether the login form has just been submitted
@@ -36,6 +37,9 @@ class User {
 
     //Setting whether the user has logged out
     $this->hasLoggedOut = $hasLoggedOut;
+
+    //Setting whether the user wants to be kept logged in
+    $this->keepUserLoggedIn = $keepUserLoggedIn;
 
     //Setting the username and password
     $this->submitUsername = $formLoginName;
@@ -81,6 +85,10 @@ class User {
 
   function getIsLoggedInWithForm() {
     return $this->isLoggedInWithForm;
+  }
+
+  function getKeepUserLoggedIn() {
+    return $this->keepUserLoggedIn;
   }
 
   function getUserNameMissing() {
@@ -133,12 +141,26 @@ class User {
     return ($this->loginIsCorrect()) == true;
   }
 
-  function createLoginSession() {
-    $_SESSION[self::$LOGIN_SESSION_ID] = true;
+  function createLoginSession($keepUserLogin) {
+    //if ($keepUserLogin == true) {
+      $_SESSION[self::$LOGIN_SESSION_ID] = true;
+      /*
+      $_SESSION[self::$COOKIE_NAME] = $this->correctUserName;
+      //Create a random password
+      $_SESSION[self::$COOKIE_PASSWORD] = password_hash($this->correctPassword, PASSWORD_DEFAULT);
+      */
+      $_SESSION[self::$COOKIE_NAME] = $this->correctUserName;
+      $_SESSION[self::$COOKIE_PASSWORD] = password_hash($this->correctPassword, PASSWORD_DEFAULT);
+    //}
+    //else {
+      //$_SESSION[self::$LOGIN_SESSION_ID] = true;
+    //}
   }
 
   function terminateLoginSession() {
-    unset($_SESSION[self::$LOGIN_SESSION_ID]);
+    unset($_SESSION['self::$LOGIN_SESSION_ID']);
+    unset($_SESSION['self::$COOKIE_NAME']);
+    unset($_SESSION['self::$COOKIE_PASSWORD']);
   }
 
 }

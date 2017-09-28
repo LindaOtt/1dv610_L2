@@ -16,20 +16,13 @@ class LoginView {
 	private $message = '';
 	private $hasJustTriedToLogIn = false;
 	private $hasLoggedOut = false;
+	private $keepUserLoggedIn = false;
 
 	function __construct() {
 		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
 		$this->hasLoggedOut = $this->hasLoggedOut();
+		$this->keepUserLoggedIn = $this->keepUserLoggedIn();
 	}
-
-	/*
-	public function hasJustLoggedInCorrectly(\model\User $user) : bool {
-		if ($this->hasJustTriedToLogin() && $user->loginDetailsAreCorrect()) {
-			return true;
-		}
-		return false;
-	}
-	*/
 
 	/**
 	 * Create HTTP response
@@ -45,7 +38,12 @@ class LoginView {
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		else if ($user->getHasJustTriedToLogin() && $user->getIsLoggedInWithForm()) {
-			$this->message = 'Welcome';
+			if ($user->getKeepUserLoggedIn()) {
+				$this->message = 'Welcome and you will be remembered';
+			}
+			else {
+				$this->message = 'Welcome';
+			}
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		else if ($user->getHasJustTriedToLogin()) {
@@ -125,6 +123,10 @@ class LoginView {
 		return (isset($_REQUEST[self::$logout])) == true;
 	}
 
+	public function keepUserLoggedIn() : bool {
+		return (isset($_REQUEST[self::$keep])) == true;
+	}
+
 	public function createUser() : \model\User {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
@@ -136,6 +138,6 @@ class LoginView {
 		}
 
 		//TO DO: Check that $retName and $retPassword are in the correct format
-		return new \model\User($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut);
+		return new \model\User($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut, $this->keepUserLoggedIn);
 	}
 }
