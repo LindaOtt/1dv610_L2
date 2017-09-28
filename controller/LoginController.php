@@ -35,24 +35,33 @@ class LoginController {
       //echo "4. getHasJustTriedToLogIn and getIsLoggedInWithForm";
       $isLoggedIn = true;
       $keepUserLogin = false;
-      //Check if user has chosen to be kept logged in
-      if ($this->user->getKeepUserLoggedIn()) {
-        $keepUserLogin = true;
+      $this->user->createLoginSession();
+      if ($this->user->getKeepUserLoggedIn() == true) {
+        $this->user->createLoginCookies(time()+180);
       }
-      $this->user->createLoginSession($keepUserLogin);
-      $this->user->createLoginCookies();
     }
     else if ($this->user->getIsLoggedInWithSession()) {
       //echo "5. getIsLoggedInWithSession";
       $isLoggedIn = true;
     }
+
     else {
       //Check if there are log in cookies
       if ($this->user->getIsLoggedInWithCookies()) {
         //echo "6. getIsLoggedInWithCookies";
-        $isLoggedIn = true;
+        if ($this->user->getIsCookieContentOK()) {
+          //echo "7. getIsCookieContentOK";
+          $isLoggedIn = true;
+        }
+        else {
+          //echo "8. else";
+          //Remove cookies
+          $this->user->createLoginCookies(time()-1000);
+          $isLoggedIn = false;
+        }
       }
     }
+
     $this->layoutView->render($isLoggedIn, $this->user, $this->loginView, $this->dateTimeView);
   }
 }

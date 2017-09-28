@@ -34,12 +34,8 @@ class LoginView {
 	 */
 	public function response(\model\User $user) {
 		$response = '';
-		if ($user->getIsLoggedInWithSession()) {
-			//echo nl2br("\nresponse 1: getIsLoggedInWithSession\n");
-			if ($user->getIsLoggedInWithCookies()) {
-				//echo nl2br("\nresponse 2: getIsLoggedInWithCookies\n");
-				$message = 'Welcome back with cookie';
-			}
+		if ($user->getIsLoggedInWithSession() && !$user->getIsLoggedInWithCookies()) {
+			$this->message = '';
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		else if ($user->getHasJustTriedToLogin() && $user->getIsLoggedInWithForm()) {
@@ -82,8 +78,18 @@ class LoginView {
 		}
 		else {
 			//echo nl2br("\nresponse 11: else\n");
-			if ($user->getIsLoggedInWithCookies() == true) {
-				$this->message = 'Welcome back with cookie';
+			if ($user->getIsLoggedInWithCookies() == true && !$user->getIsLoggedInWithSession()) {
+				//$this->message = 'Welcome back with cookie';
+				//$response = $this->generateLogoutButtonHTML($this->message);
+				//echo nl2br("\nresponse 2: getIsLoggedInWithCookies\n");
+				if ($user->getIsCookieContentOK() == true) {
+					//echo nl2br("\nresponse 3: getIsCookieContentOK is true\n");
+					$this->message = 'Welcome back with cookie';
+				}
+				else {
+					//echo nl2br("\nresponse 4: else\n");
+					$this->message = 'Wrong information in cookies';
+				}
 				$response = $this->generateLogoutButtonHTML($this->message);
 			}
 			else {

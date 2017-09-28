@@ -18,6 +18,7 @@ class User {
   private $isLoggedInWithSession = false;
   private $isLoggedInWithForm = false;
   private $isLoggedInWithCookies = false;
+  private $isCookieContentOK = false;
   private $userNameMissing = false;
   private $passwordMissing = false;
   private $hasJustTriedToLogIn = false;
@@ -57,7 +58,6 @@ class User {
     //Check if the user is logged in
     $this->checkLoginState();
 
-
   }
 
   function checkLoginState() {
@@ -68,11 +68,7 @@ class User {
     $this->userNameMissing = $this->isUserNameMissing();
     $this->passwordMissing = $this->isPasswordMissing();
     $this->isLoggedInWithCookies = $this->isThereALoginCookie();
-    //Delete cookies
-    /*
-    setcookie(self::$COOKIE_NAME, $this->correctUserName, -3600);
-    setcookie(self::$COOKIE_PASSWORD, md5($this->correctPassword), -3600);
-*/
+    $this->isCookieContentOK = $this->isCookieContentOK();
   }
 
   function getIsLoggedInWithSession() {
@@ -127,6 +123,10 @@ class User {
     return $this->submitPassword == '';
   }
 
+  function getIsCookieContentOK() {
+    return $this->isCookieContentOK;
+  }
+
   /**
   * Check that the submitted username matches the username in the settings file
   */
@@ -153,16 +153,13 @@ class User {
     return ($this->loginIsCorrect()) == true;
   }
 
-  function createLoginSession($keepUserLogin) {
+  function createLoginSession() {
       $_SESSION[self::$LOGIN_SESSION_ID] = true;
   }
 
-
-  function createLoginCookies() {
-    //Sets cookies with duration of one hour
-    setcookie(self::$COOKIE_NAME, $this->correctUserName, time()+60);
-    //setcookie(self::$COOKIE_NAME, $this->correctUserName, -1);
-    setcookie(self::$COOKIE_PASSWORD, md5($this->correctPassword), time()+60);
+  function createLoginCookies($time) {
+    setcookie(self::$COOKIE_NAME, $this->correctUserName, $time);
+    setcookie(self::$COOKIE_PASSWORD, $this->encrypt($this->correctPassword), $time);
   }
 
   function isThereALoginCookie() : bool {
@@ -175,6 +172,32 @@ class User {
     unset($_SESSION[self::$LOGIN_SESSION_ID]);
     unset($_SESSION[self::$COOKIE_NAME]);
     unset($_SESSION[self::$COOKIE_PASSWORD]);
+  }
+
+  function isCookieNameOK() : bool {
+    if (isset($_COOKIE[self::$COOKIE_NAME])) {
+        return ($_COOKIE[self::$COOKIE_NAME] == $this->correctUserName);
+    }
+    return false;
+  }
+
+  function isCookiePasswordOK() : bool {
+    if (isset($_COOKIE[self::$COOKIE_PASSWORD])) {
+        return ($_COOKIE[self::$COOKIE_PASSWORD] == $this->encrypt($this->correctPassword));
+    }
+    return false;
+  }
+
+  function encrypt($contentToEncrypt) : string {
+    return md5($contentToEncrypt);
+  }
+
+  function isCookieContentOK() : bool{
+    return ($this->isCookieNameOK() && $this->isCookiePasswordOK());
+  }
+
+  function removeCookies() {
+
   }
 
 }
