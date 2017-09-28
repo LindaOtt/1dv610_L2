@@ -35,30 +35,43 @@ class LoginView {
 	public function response(\model\User $user) {
 		$response = '';
 		if ($user->getIsLoggedInWithSession()) {
+			//echo nl2br("\nresponse 1: getIsLoggedInWithSession\n");
+			if ($user->getIsLoggedInWithCookies()) {
+				//echo nl2br("\nresponse 2: getIsLoggedInWithCookies\n");
+				$message = 'Welcome back with cookie';
+			}
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		else if ($user->getHasJustTriedToLogin() && $user->getIsLoggedInWithForm()) {
+			//echo nl2br("\nresponse 3: getIsLoggedInWithForm\n");
 			if ($user->getKeepUserLoggedIn()) {
+				//echo nl2br("\nresponse 4: getKeepUserLoggedIn\n");
 				$this->message = 'Welcome and you will be remembered';
 			}
 			else {
+				//echo nl2br("\nresponse 5: NOT getKeepUserLoggedIn\n");
 				$this->message = 'Welcome';
 			}
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		else if ($user->getHasJustTriedToLogin()) {
+			//echo nl2br("\nresponse 6: NOT getHasJustTriedToLogin\n");
 			if ($user->getUserNameMissing()) {
+				//echo nl2br("\nresponse 7: NOT getUserNameMissing\n");
 				$this->message = 'Username is missing';
 			}
 			else if ($user->getPasswordMissing()) {
+				//echo nl2br("\nresponse 8: NOT getPasswordMissing\n");
 				$this->message = 'Password is missing';
 			}
 			else {
+				//echo nl2br("\nresponse 9: Wrong name or password\n");
 				$this->message = 'Wrong name or password';
 			}
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 		else if ($user->getHasLoggedOut()) {
+			//echo nl2br("\nresponse 10: getHasLoggedOut\n");
 			if ($user->getHasLoggedOutWithoutSession() == true) {
 				$this->message = '';
 			}
@@ -68,7 +81,14 @@ class LoginView {
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 		else {
-			$response = $this->generateLoginFormHTML($this->message);
+			//echo nl2br("\nresponse 11: else\n");
+			if ($user->getIsLoggedInWithCookies() == true) {
+				$this->message = 'Welcome back with cookie';
+				$response = $this->generateLogoutButtonHTML($this->message);
+			}
+			else {
+				$response = $this->generateLoginFormHTML($this->message);
+			}
 		}
 
 		return $response;

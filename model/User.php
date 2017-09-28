@@ -17,6 +17,7 @@ class User {
   private $sessionPassword;
   private $isLoggedInWithSession = false;
   private $isLoggedInWithForm = false;
+  private $isLoggedInWithCookies = false;
   private $userNameMissing = false;
   private $passwordMissing = false;
   private $hasJustTriedToLogIn = false;
@@ -56,6 +57,7 @@ class User {
     //Check if the user is logged in
     $this->checkLoginState();
 
+
   }
 
   function checkLoginState() {
@@ -65,6 +67,12 @@ class User {
     }
     $this->userNameMissing = $this->isUserNameMissing();
     $this->passwordMissing = $this->isPasswordMissing();
+    $this->isLoggedInWithCookies = $this->isThereALoginCookie();
+    //Delete cookies
+    /*
+    setcookie(self::$COOKIE_NAME, $this->correctUserName, -3600);
+    setcookie(self::$COOKIE_PASSWORD, md5($this->correctPassword), -3600);
+*/
   }
 
   function getIsLoggedInWithSession() {
@@ -85,6 +93,10 @@ class User {
 
   function getIsLoggedInWithForm() {
     return $this->isLoggedInWithForm;
+  }
+
+  function getIsLoggedInWithCookies() {
+    return $this->isLoggedInWithCookies;
   }
 
   function getKeepUserLoggedIn() {
@@ -142,19 +154,21 @@ class User {
   }
 
   function createLoginSession($keepUserLogin) {
-    //if ($keepUserLogin == true) {
       $_SESSION[self::$LOGIN_SESSION_ID] = true;
-      /*
-      $_SESSION[self::$COOKIE_NAME] = $this->correctUserName;
-      //Create a random password
-      $_SESSION[self::$COOKIE_PASSWORD] = password_hash($this->correctPassword, PASSWORD_DEFAULT);
-      */
-      $_SESSION[self::$COOKIE_NAME] = $this->correctUserName;
-      $_SESSION[self::$COOKIE_PASSWORD] = password_hash($this->correctPassword, PASSWORD_DEFAULT);
-    //}
-    //else {
-      //$_SESSION[self::$LOGIN_SESSION_ID] = true;
-    //}
+  }
+
+
+  function createLoginCookies() {
+    //Sets cookies with duration of one hour
+    setcookie(self::$COOKIE_NAME, $this->correctUserName, time()+60);
+    //setcookie(self::$COOKIE_NAME, $this->correctUserName, -1);
+    setcookie(self::$COOKIE_PASSWORD, md5($this->correctPassword), time()+60);
+  }
+
+  function isThereALoginCookie() : bool {
+    $isTheCookieSet = isset($_COOKIE[self::$COOKIE_NAME]);
+    //echo nl2br("\nisTheCookieSet: " . $isTheCookieSet. "\n");
+    return isset($_COOKIE[self::$COOKIE_NAME]);
   }
 
   function terminateLoginSession() {

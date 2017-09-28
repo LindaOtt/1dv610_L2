@@ -40,12 +40,19 @@ class LoginController {
         $keepUserLogin = true;
       }
       $this->user->createLoginSession($keepUserLogin);
+      $this->user->createLoginCookies();
     }
     else if ($this->user->getIsLoggedInWithSession()) {
       //echo "5. getIsLoggedInWithSession";
       $isLoggedIn = true;
     }
+    else {
+      //Check if there are log in cookies
+      if ($this->user->getIsLoggedInWithCookies()) {
+        //echo "6. getIsLoggedInWithCookies";
+        $isLoggedIn = true;
+      }
+    }
     $this->layoutView->render($isLoggedIn, $this->user, $this->loginView, $this->dateTimeView);
   }
-
 }
