@@ -1,5 +1,5 @@
 <?php
-
+/* To do: Add exception handling */
 session_start();
 
 require_once('controller/LoginController.php');

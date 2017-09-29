@@ -1,9 +1,7 @@
 <?php
-//$loggedInUser, $isThereALoggedInUser
-//Add md5-hash encryption and salt when saving usernames and passwords
+//To do: Add md5-hash encryption and salt when saving usernames and passwords
 //Add salt to settings file
 //Don't save username and password on GitHub, generate each time
-//Make sure .gitignore is not available through web browser
 //Add plenty of validation in register class
 namespace model;
 
@@ -214,7 +212,6 @@ class User {
 
   function isThereALoginCookie() : bool {
     $isTheCookieSet = isset($_COOKIE[self::$COOKIE_NAME]);
-    //echo nl2br("\nisTheCookieSet: " . $isTheCookieSet. "\n");
     return isset($_COOKIE[self::$COOKIE_NAME]);
   }
 
@@ -249,5 +246,4 @@ class User {
   function getSessionID() : string{
     return session_id();
   }
-
 }
