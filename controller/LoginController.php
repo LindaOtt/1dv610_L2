@@ -17,6 +17,12 @@ class LoginController {
   public function runLoginSystem() {
     //Important: Keep order of if statements
     $isLoggedIn = false;
+    $wantsToRegisterUser = false;
+
+    //Checks if user wants to register a new user
+    if($this->loginView->wantsToRegisterUser()) {
+      $wantsToRegisterUser = true;
+    }
 
     if ($this->user->getIsLoggedInWithSession() && $this->user->getHasLoggedOut()) {
       //echo "1. getIsLoggedInWithSession and getHasLoggedOut";
@@ -37,7 +43,7 @@ class LoginController {
       $keepUserLogin = false;
       $this->user->createLoginSession();
       if ($this->user->getKeepUserLoggedIn() == true) {
-        $this->user->createLoginCookies(time()+180);
+        $this->user->createLoginCookies(time()+180, true);
       }
     }
     else if ($this->user->getIsLoggedInWithSession()) {
@@ -56,12 +62,12 @@ class LoginController {
         else {
           //echo "8. else";
           //Remove cookies
-          $this->user->createLoginCookies(time()-1000);
+          $this->user->createLoginCookies(time()-1000, false);
           $isLoggedIn = false;
         }
       }
     }
 
-    $this->layoutView->render($isLoggedIn, $this->user, $this->loginView, $this->dateTimeView);
+    $this->layoutView->render($isLoggedIn, $wantsToRegisterUser, $this->user, $this->loginView, $this->dateTimeView);
   }
 }

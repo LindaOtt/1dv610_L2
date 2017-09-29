@@ -26,9 +26,11 @@ class User {
   private $hasLoggedOutWithoutSession = false;
   private $keepUserLoggedIn = false;
 
-  private static $LOGIN_SESSION_ID = "model::User::userLogin";
+  private static $LOGIN_SESSION_ID = 'model::User::userLogin';
   private static $COOKIE_NAME = "model::User::CookieName";
   private static $COOKIE_PASSWORD = "model::User::CookiePassword";
+
+  private $dbFilePath = 'db/db.txt';
 
 
   function __construct($formLoginName, $formPassword, $hasJustTriedToLogin, $hasLoggedOut, $keepUserLoggedIn) {
@@ -157,9 +159,57 @@ class User {
       $_SESSION[self::$LOGIN_SESSION_ID] = true;
   }
 
-  function createLoginCookies($time) {
+  function createLoginCookies($time, $storeTime) {
     setcookie(self::$COOKIE_NAME, $this->correctUserName, $time);
     setcookie(self::$COOKIE_PASSWORD, $this->encrypt($this->correctPassword), $time);
+    $this->storeCookieTime($time);
+  }
+
+  function storeCookieTime($time) {
+    // Open the file to get existing content
+    $content = file_get_contents('db/db.txt');
+    //Append session id to file
+    $content .= "\n[".$this->getSessionID()."]\n";
+    // Append the time to the file
+    $content .= $time."\n";
+    // Write the contents back to the file
+    file_put_contents('db/db.txt', $content);
+  }
+
+  function getLineWithString($fileName, $str) {
+    $lines = file($fileName);
+    foreach ($lines as $lineNumber => $line) {
+        if (strpos($line, $str) !== false) {
+            return $line;
+        }
+    }
+    return -1;
+  }
+
+  function isCookieTimeOK() : bool {
+    // Open the file to get existing content
+    $content = file_get_contents('db/db.txt');
+    //Find the line with the current session
+    $posOfCurrentSession = strpos($content, $this->getSessionID());
+    //Check if the current session exists in the text file
+    if ($posOfCurrentSession === false) {
+      return false;
+    }
+    else {
+      //If it does, check if the time in the text file matches the time of the cookie
+      $contentLine = $this->getLineFromString($this->dbFilePath, $this->getSessionID());
+
+      //Get the last part of the line that contains the time
+      $contents = explode(']', $contentLine);
+      $timeText = end($contents);
+
+      if ($timeText == $this->getSessionID) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
   }
 
   function isThereALoginCookie() : bool {
@@ -196,8 +246,8 @@ class User {
     return ($this->isCookieNameOK() && $this->isCookiePasswordOK());
   }
 
-  function removeCookies() {
-
+  function getSessionID() : string{
+    return session_id();
   }
 
 }

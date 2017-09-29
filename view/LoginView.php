@@ -10,6 +10,10 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private static $nameregister = 'LoginView::UserNameRegister';
+	private static $passwordregister = 'LoginView::PasswordRegister';
+	private static $passwordrepeat = 'LoginView::PasswordRepeat';
+	private static $registerbutton = 'LoginView::RegisterButton';
 
 	private $nameValue = '';
 	private $passwordValue = '';
@@ -17,11 +21,13 @@ class LoginView {
 	private $hasJustTriedToLogIn = false;
 	private $hasLoggedOut = false;
 	private $keepUserLoggedIn = false;
+	private $wantsToRegisterUser = false;
 
 	function __construct() {
 		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
 		$this->hasLoggedOut = $this->hasLoggedOut();
 		$this->keepUserLoggedIn = $this->keepUserLoggedIn();
+		$this->wantsToRegisterUser = $this->wantsToRegisterUser();
 	}
 
 	/**
@@ -34,7 +40,10 @@ class LoginView {
 	 */
 	public function response(\model\User $user) {
 		$response = '';
-		if ($user->getIsLoggedInWithSession() && !$user->getIsLoggedInWithCookies()) {
+		if ($this->wantsToRegisterUser) {
+			$response = $this->generateRegisterNewUserHTML();
+		}
+		else if ($user->getIsLoggedInWithSession() && !$user->getIsLoggedInWithCookies()) {
 			$this->message = '';
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
@@ -141,6 +150,28 @@ class LoginView {
 		';
 	}
 
+	private function generateRegisterNewUserHTML() {
+		return '
+			<h2>Register new user</h2>
+			<form method="post" >
+				<fieldset>
+					<legend>Register a new user - Write username and password</legend>
+
+					<label for="' . self::$nameregister . '">Username :</label>
+					<input type="text" id="' . self::$nameregister . '" name="' . self::$name . '" value="'. $this->nameValue .'" />
+
+					<label for="' . self::$passwordregister . '">Password :</label>
+					<input type="password" id="' . self::$passwordregister . '" name="' . self::$passwordregister . '" />
+
+					<label for="' . self::$passwordrepeat . '">Repeat password :</label>
+					<input type="password" id="' . self::$passwordrepeat . '" name="' . self::$passwordrepeat . '" />
+
+					<input type="submit" name="' . self::$registerbutton . '" value="Register" />
+				</fieldset>
+			</form>
+		';
+	}
+
 	public function hasJustTriedToLogIn() : bool {
 		return (isset($_REQUEST[self::$name]) || isset($_REQUEST[self::$password])) == true;
 	}
@@ -151,6 +182,15 @@ class LoginView {
 
 	public function keepUserLoggedIn() : bool {
 		return (isset($_REQUEST[self::$keep])) == true;
+	}
+
+	public function wantsToRegisterUser() : bool {
+		if (isset($_GET['register'])) {
+				return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public function createUser() : \model\User {
