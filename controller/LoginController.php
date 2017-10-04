@@ -15,6 +15,7 @@ class LoginController {
   }
 
 /* To do: simplify function */
+
   public function runLoginSystem() {
 
     $isLoggedIn = false;
@@ -26,9 +27,11 @@ class LoginController {
       $wantsToRegisterUser = true;
     }
 
+
     //The user is logged in with a session
-    if ($this->loginModel->getIsLoggedInWithSession() {
+    if ($this->loginModel->getIsLoggedInWithSession()) {
       //The user has just clicked the "logout" button
+
       if ($this->loginModel->getHasLoggedOut()) {
         $this->loginModel->setIsLoggedInWithSession(false);
         $this->loginModel->terminateLoginSession();
@@ -37,7 +40,9 @@ class LoginController {
       else {
         $isLoggedIn = true;
       }
+
     }
+      
     //The user is not logged in with a session
     else {
       //The user has just clicked the "logout" button
@@ -120,6 +125,8 @@ class LoginController {
       }
     }
     */
+
     $this->layoutView->render($isLoggedIn, $wantsToRegisterUser, $this->loginModel, $this->loginView, $this->dateTimeView);
   }
+
 }
