@@ -1,11 +1,8 @@
 <?php
 /* To do: Add exception handling */
 session_start();
-
 require_once('controller/LoginController.php');
-
-require_once('model/User.php');
-
+require_once('model/LoginModel.php');
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
@@ -22,7 +19,7 @@ $dateTimeView = new \view\DateTimeView();
 $loginView = new \view\LoginView();
 
 //Get the user object from the login view
-$user = $loginView->createUser();
+$loginModel = $loginView->createLogin();
 
-$controller = new \controller\LoginController($user, $layoutView, $loginView, $dateTimeView);
+$controller = new \controller\LoginController($loginModel, $layoutView, $loginView, $dateTimeView);
 $controller->runLoginSystem();

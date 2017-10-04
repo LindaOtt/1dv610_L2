@@ -38,17 +38,17 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 * TO DO: Simplify function
 	 */
-	public function response(\model\User $user) {
+	public function response(\model\LoginModel $loginModel) {
 		$response = '';
 		if ($this->wantsToRegisterUser) {
 			$response = $this->generateRegisterNewUserHTML();
 		}
-		else if ($user->getIsLoggedInWithSession() && !$user->getIsLoggedInWithCookies()) {
+		else if ($loginModel->getIsLoggedInWithSession() && !$loginModel->getIsLoggedInWithCookies()) {
 			$this->message = '';
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
-		else if ($user->getHasJustTriedToLogin() && $user->getIsLoggedInWithForm()) {
-			if ($user->getKeepUserLoggedIn()) {
+		else if ($loginModel->getHasJustTriedToLogin() && $loginModel->getIsLoggedInWithForm()) {
+			if ($loginModel->getKeepUserLoggedIn()) {
 				$this->message = 'Welcome and you will be remembered';
 			}
 			else {
@@ -56,11 +56,11 @@ class LoginView {
 			}
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
-		else if ($user->getHasJustTriedToLogin()) {
-			if ($user->getUserNameMissing()) {
+		else if ($loginModel->getHasJustTriedToLogin()) {
+			if ($loginModel->getUserNameMissing()) {
 				$this->message = 'Username is missing';
 			}
-			else if ($user->getPasswordMissing()) {
+			else if ($loginModel->getPasswordMissing()) {
 				$this->message = 'Password is missing';
 			}
 			else {
@@ -68,8 +68,8 @@ class LoginView {
 			}
 			$response = $this->generateLoginFormHTML($this->message);
 		}
-		else if ($user->getHasLoggedOut()) {
-			if ($user->getHasLoggedOutWithoutSession() == true) {
+		else if ($loginModel->getHasLoggedOut()) {
+			if ($loginModel->getHasLoggedOutWithoutSession() == true) {
 				$this->message = '';
 			}
 			else {
@@ -78,8 +78,8 @@ class LoginView {
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 		else {
-			if ($user->getIsLoggedInWithCookies() == true && !$user->getIsLoggedInWithSession()) {
-				if ($user->getIsCookieContentOK() == true) {
+			if ($loginModel->getIsLoggedInWithCookies() == true && !$loginModel->getIsLoggedInWithSession()) {
+				if ($loginModel->getIsCookieContentOK() == true) {
 					$this->message = 'Welcome back with cookie';
 				}
 				else {
@@ -179,7 +179,7 @@ class LoginView {
 		}
 	}
 
-	public function createUser() : \model\User {
+	public function createLogin() : \model\LoginModel {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if (isset($_REQUEST[self::$name])) {
 			$this->nameValue = $_REQUEST[self::$name];
@@ -190,6 +190,6 @@ class LoginView {
 		}
 
 		//TO DO: Check that $retName and $retPassword are in the correct format
-		return new \model\User($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut, $this->keepUserLoggedIn);
+		return new \model\LoginModel($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut, $this->keepUserLoggedIn);
 	}
 }
