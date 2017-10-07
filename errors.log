@@ -1,1 +1,1 @@
-R2: getHasJustTriedToLogin and getIsLoggedInWithFormR4: else
+R12: getIsLoggedInWithCookies and getIsLoggedInWithSessionR14: elseR1: getHasJustTriedToLogin and getIsLoggedInWithFormR2: getKeepUserLoggedInR12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSessionR14: elseR1: getHasJustTriedToLogin and getIsLoggedInWithFormR2: getKeepUserLoggedInR12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSessionR14: else

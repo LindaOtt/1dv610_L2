@@ -46,22 +46,22 @@ class LoginView {
 		}
 		//The user has just tried to log in and is logged in successfully
 		else if ($loginModel->getHasJustTriedToLogin() && $loginModel->getIsLoggedInWithForm()) {
-			error_log("R2: getHasJustTriedToLogin and getIsLoggedInWithForm", 3, "errors.log");
-			if ($loginModel->getFirstLoginWithoutSession() == true) {
+			error_log("R1: getHasJustTriedToLogin and getIsLoggedInWithForm", 3, "errors.log");
+			//The user has selected "Keep me logged in"
+			if ($loginModel->getKeepUserLoggedIn()) {
+				error_log("R2: getKeepUserLoggedIn", 3, "errors.log");
+				$this->message = 'Welcome and you will be remembered';
+			}
+			else if ($loginModel->getFirstLoginWithoutSession() == true) {
+				error_log("R3: getKeepUserLoggedIn\n", 3, "errors.log");
 				$this->message = 'Welcome';
 			}
 			//The user is already logged in with a session
 			else if ($loginModel->getIsLoggedInWithSession()) {
-				error_log("R3: getIsLoggedInWithSession", 3, "errors.log");
+				error_log("R4: getIsLoggedInWithSession", 3, "errors.log");
 				$this->message = '';
 			}
-			//The user has selected "Keep me logged in"
-			else if ($loginModel->getKeepUserLoggedIn()) {
-				error_log("R4: getKeepUserLoggedIn", 3, "errors.log");
-				$this->message = 'Welcome and you will be remembered';
-			}
 			else {
-
 				error_log("R5: else", 3, "errors.log");
 				$this->message = 'Welcome';
 			}
@@ -108,14 +108,18 @@ class LoginView {
 		else {
 			//The user is logged in with cookies but not logged in with session
 			if ($loginModel->getIsLoggedInWithCookies() == true && !$loginModel->getIsLoggedInWithSession()) {
+				error_log("R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSession", 3, "errors.log");
 				//The cookies are ok
 				if ($loginModel->getIsCookieContentOK() == true) {
+					error_log("R13: getIsCookieContentOK", 3, "errors.log");
 					$this->message = 'Welcome back with cookie';
+					$response = $this->generateLogoutButtonHTML($this->message);
 				}
 				else {
+					error_log("R14: else", 3, "errors.log");
 					$this->message = 'Wrong information in cookies';
+					$response = $this->generateLoginFormHTML($this->message);
 				}
-				$response = $this->generateLogoutButtonHTML($this->message);
 			}
 			else {
 				$response = $this->generateLoginFormHTML($this->message);

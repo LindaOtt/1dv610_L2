@@ -4,7 +4,7 @@ namespace view;
 
 class LayoutView {
 
-  public function render($isLoggedIn, $wantsToRegisterUser, \model\LoginModel $loginModel, \view\LoginView $v, \view\DateTimeView $dtv) {
+  public function render($isLoggedIn, $failedLoginAttempt, $wantsToRegisterUser, \model\LoginModel $loginModel, \view\LoginView $v, \view\DateTimeView $dtv) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -14,7 +14,7 @@ class LayoutView {
         <body>
 
           <h1>Assignment 2</h1>
-          ' . $this->renderRegisterUser($isLoggedIn, $wantsToRegisterUser) .
+          ' . $this->renderRegisterUser($isLoggedIn, $failedLoginAttempt, $wantsToRegisterUser) .
               $this->renderIsLoggedIn($isLoggedIn) . '
 
           <div class="container">
@@ -36,8 +36,8 @@ class LayoutView {
     }
   }
 
-  private function renderRegisterUser($isLoggedIn, $wantsToRegisterUser) {
-    if ($isLoggedIn) {
+  private function renderRegisterUser($isLoggedIn, $failedLoginAttempt, $wantsToRegisterUser) {
+    if ($isLoggedIn || $failedLoginAttempt) {
       return '';
     }
     else {

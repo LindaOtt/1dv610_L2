@@ -25,6 +25,7 @@ class LoginModel {
 
   private $isLoggedIn = false;
   private $keepUserLoggedIn = false;
+  private $failedLoginAttempt = false;
 
   private $firstLoginWithoutSession = false;
 
@@ -134,6 +135,10 @@ class LoginModel {
     return false;
   }
 
+  function getFailedLoginAttempt() {
+    return $this->failedLoginAttempt;
+  }
+
   function checkIfLoggedInWithCookies() {
     //Check if the user is logged in with cookies
     if ($this->getIsLoggedInWithCookies()) {
@@ -146,6 +151,7 @@ class LoginModel {
         //Remove cookies
         $this->createLoginCookies(time()-1000, false);
         $this->isLoggedIn = false;
+        $this->failedLoginAttempt = true;
         return false;
       }
     }

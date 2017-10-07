@@ -9,6 +9,7 @@ class LoginController {
 
   private $wantsToRegisterUser = false;
   private $isLoggedIn = false;
+  private $failedLoginAttempt = false;
 
   function __construct(\model\LoginModel $loginModel, \view\LayoutView $layoutView, \view\LoginView $loginView, \view\DateTimeView $dateTimeView) {
     $this->loginModel = $loginModel;
@@ -25,7 +26,8 @@ class LoginController {
 
   public function runLoginSystem() {
     $this->isLoggedIn = $this->loginModel->getIsLoggedIn();
-    $this->layoutView->render($this->isLoggedIn, $this->wantsToRegisterUser, $this->loginModel, $this->loginView, $this->dateTimeView);
+    $this->failedLoginAttempt = $this->loginModel->getFailedLoginAttempt();
+    $this->layoutView->render($this->isLoggedIn, $this->failedLoginAttempt, $this->wantsToRegisterUser, $this->loginModel, $this->loginView, $this->dateTimeView);
   }
 
 }
