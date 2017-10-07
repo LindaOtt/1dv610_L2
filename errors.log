@@ -1,1 +1,10 @@
-R12: getIsLoggedInWithCookies and getIsLoggedInWithSessionR14: elseR1: getHasJustTriedToLogin and getIsLoggedInWithFormR2: getKeepUserLoggedInR12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSessionR14: elseR1: getHasJustTriedToLogin and getIsLoggedInWithFormR2: getKeepUserLoggedInR12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSessionR14: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Cookie name is set
+Cookie name equals correct user name
+Inside isCookiePasswordOK()
+Cookie password is set
+Cookie password: bananab65e6711e155375218212b3964
+Encrypted password: dc647eb65e6711e155375218212b3964
+Cookie password does NOT equal correct password
+R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSessionR14: else

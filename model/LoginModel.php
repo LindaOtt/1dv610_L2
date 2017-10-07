@@ -143,7 +143,7 @@ class LoginModel {
     //Check if the user is logged in with cookies
     if ($this->getIsLoggedInWithCookies()) {
       //Check if the cookies are ok ()
-      if ($this->getIsCookieContentOK()) {
+      if ($this->isCookieContentOK == true) {
         $this->isLoggedIn = true;
         return true;
       }
@@ -268,10 +268,12 @@ class LoginModel {
   }
 
   function isCookieTimeOK() : bool {
+    error_log("Inside isCookieTimeOK()\n", 3, "errors.log");
     // Open the file to get existing content
     $content = file_get_contents('db/db.txt');
     //Find the line with the current session
     $posOfCurrentSession = strpos($content, $this->getSessionID());
+    error_log("posOfCurrentSession: $posOfCurrentSession\n", 3, "errors.log");
     //Check if the current session exists in the text file
     if ($posOfCurrentSession === false) {
       return false;
@@ -279,15 +281,18 @@ class LoginModel {
     else {
       //If it does, check if the time in the text file matches the time of the cookie
       $contentLine = $this->getLineFromString($this->dbFilePath, $this->getSessionID());
-
+      error_log("contentLine: $contentLine\n", 3, "errors.log");
       //Get the last part of the line that contains the time
       $contents = explode(']', $contentLine);
       $timeText = end($contents);
+      error_log("timeText: $timeText\n", 3, "errors.log");
 
       if ($timeText == $this->getSessionID) {
+        error_log("timeText equals session id\n", 3, "errors.log");
         return true;
       }
       else {
+        error_log("timeText does NOT equal session id\n", 3, "errors.log");
         return false;
       }
     }
@@ -305,15 +310,39 @@ class LoginModel {
   }
 
   function isCookieNameOK() : bool {
+    error_log("Inside isCookieNameOK()\n", 3, "errors.log");
     if (isset($_COOKIE[self::$COOKIE_NAME])) {
-        return ($_COOKIE[self::$COOKIE_NAME] == $this->correctUserName);
+      error_log("Cookie name is set\n", 3, "errors.log");
+      //return ($_COOKIE[self::$COOKIE_NAME] == $this->correctUserName);
+      if (($_COOKIE[self::$COOKIE_NAME] == $this->correctUserName)) {
+        error_log("Cookie name equals correct user name\n", 3, "errors.log");
+        return true;
+      }
+      else {
+        error_log("Cookie name does not equal correct user name\n", 3, "errors.log");
+        return false;
+      }
     }
     return false;
   }
 
   function isCookiePasswordOK() : bool {
+    error_log("Inside isCookiePasswordOK()\n", 3, "errors.log");
     if (isset($_COOKIE[self::$COOKIE_PASSWORD])) {
-        return ($_COOKIE[self::$COOKIE_PASSWORD] == $this->encrypt($this->correctPassword));
+      error_log("Cookie password is set\n", 3, "errors.log");
+      //return ($_COOKIE[self::$COOKIE_PASSWORD] == $this->encrypt($this->correctPassword));
+      $storedCookiePassword = $_COOKIE[self::$COOKIE_PASSWORD];
+      $encryptedPassword = $this->encrypt($this->correctPassword);
+      error_log("Cookie password: $storedCookiePassword\n", 3, "errors.log");
+      error_log("Encrypted password: $encryptedPassword\n", 3, "errors.log");
+      if ($_COOKIE[self::$COOKIE_PASSWORD] == $this->encrypt($this->correctPassword)) {
+        error_log("Cookie password equals correct password\n", 3, "errors.log");
+        return true;
+      }
+      else {
+        error_log("Cookie password does NOT equal correct password\n", 3, "errors.log");
+        return false;
+      }
     }
     return false;
   }
@@ -323,7 +352,15 @@ class LoginModel {
   }
 
   function isCookieContentOK() : bool{
-    return ($this->isCookieNameOK() && $this->isCookiePasswordOK());
+    error_log("Inside isCookieContentOK()\n", 3, "errors.log");
+    if ($this->isCookieNameOK() && $this->isCookiePasswordOK()) {
+      error_log("Cookie name and password are ok\n", 3, "errors.log");
+      if ($this->isCookieTimeOK()) {
+        error_log("Cookie time is ok\n", 3, "errors.log");
+        return true;
+      }
+    }
+    return false;
   }
 
   function getSessionID() : string{
