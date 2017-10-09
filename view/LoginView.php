@@ -122,7 +122,7 @@ class LoginView {
 			if ($loginModel->getIsLoggedInWithCookies() == true && !$loginModel->getIsLoggedInWithSession()) {
 				error_log("R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSession\n", 3, "errors.log");
 				//The cookies are ok
-				if ($loginModel->getIsCookieContentOK() == true) {
+				if ($loginModel->isCookieContentOK() == true) {
 					error_log("R13: getIsCookieContentOK\n", 3, "errors.log");
 					$this->message = 'Welcome back with cookie';
 					$response = $this->generateLogoutButtonHTML($this->message);

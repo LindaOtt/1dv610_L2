@@ -393,9 +393,15 @@ class LoginModel {
           error_log("Cookie time is ok\n", 3, "errors.log");
           return true;
         }
+        else {
+          return false;
+        }
       }
+      return true;
     }
-    return false;
+    else {
+      return false;
+    }
   }
 
   function getSessionID() : string{
