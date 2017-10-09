@@ -31,8 +31,11 @@ class LoginModel {
   private $firstLoginWithoutSession = false;
 
   private static $LOGIN_SESSION_ID = 'model::LoginModel::userLogin';
-  private static $COOKIE_NAME = "model::LoginModel::CookieName";
-  private static $COOKIE_PASSWORD = "model::LoginModel::CookiePassword";
+  //private static $COOKIE_NAME = "model::LoginModel::CookieName";
+  private static $COOKIE_NAME = "LoginView::CookieName";
+  //private static $COOKIE_PASSWORD = "model::LoginModel::CookiePassword";
+  //LoginView::CookiePassword
+  private static $COOKIE_PASSWORD = "LoginView::CookiePassword";
 
   function __construct($formLoginName, $formPassword, $hasJustTriedToLogin, $hasLoggedOut, $keepUserLoggedIn) {
     assert(session_status() != PHP_SESSION_NONE);
@@ -281,7 +284,7 @@ class LoginModel {
     //Append session id to file
     $content .= "\n[".$this->getSessionID()."]\n";
     // Append the time to the file
-    $content .= $time."\n";
+    $content .= $time;
     // Write the contents back to the file
     file_put_contents('db/db.txt', $content);
   }

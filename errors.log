@@ -4,6 +4,52 @@ Cookie name is set
 Cookie name equals correct user name
 Inside isCookiePasswordOK()
 Cookie password is set
+Cookie password: banana65e6711e155375218212b3964
+Encrypted password: dc647eb65e6711e155375218212b3964
+Cookie password does NOT equal correct password
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+Model: function checkIfLoggedInWithCookies(), Inside getIsLoggedInWithCookies()
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Cookie name is set
+Cookie name equals correct user name
+Inside isCookiePasswordOK()
+Cookie password is set
+Cookie password: banana65e6711e155375218212b3964
+Encrypted password: dc647eb65e6711e155375218212b3964
+Cookie password does NOT equal correct password
+Model: function checkIfLoggedInWithCookies(), else
+R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSession
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Cookie name is set
+Cookie name equals correct user name
+Inside isCookiePasswordOK()
+Cookie password is set
+Cookie password: banana65e6711e155375218212b3964
+Encrypted password: dc647eb65e6711e155375218212b3964
+Cookie password does NOT equal correct password
+R14: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+Model: checkIfLoggedInSuccessfully
+R1: getIsLoggedInWithSession
+R1: getHasJustTriedToLogin and getIsLoggedInWithForm
+R2: getKeepUserLoggedIn and getFirstLoginWithoutSession
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Cookie name is set
+Cookie name equals correct user name
+Inside isCookiePasswordOK()
+Cookie password is set
 Cookie password: dc647eb65e6711e155375218212b3964
 Encrypted password: dc647eb65e6711e155375218212b3964
 Cookie password equals correct password
@@ -35,3 +81,46 @@ Encrypted password: dc647eb65e6711e155375218212b3964
 Cookie password equals correct password
 Cookie name and password are ok
 R13: getIsCookieContentOK
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+Model: checkIfLoggedInSuccessfully
+R1: getIsLoggedInWithSession
+R1: getHasJustTriedToLogin and getIsLoggedInWithForm
+R2: getKeepUserLoggedIn and getFirstLoginWithoutSession
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+Model: checkIfLoggedInSuccessfully
+R1: getIsLoggedInWithSession
+R1: getHasJustTriedToLogin and getIsLoggedInWithForm
+R2: getKeepUserLoggedIn and getFirstLoginWithoutSession
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: isLoggedInWithSession
+R1: getIsLoggedInWithSession
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+Model: checkIfLoggedInSuccessfully
+R1: getIsLoggedInWithSession
+R1: getHasJustTriedToLogin and getIsLoggedInWithForm
+R2: getKeepUserLoggedIn and getFirstLoginWithoutSession
