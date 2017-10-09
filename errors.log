@@ -21,4 +21,94 @@ Inside isCookieContentOK()
 Inside isCookieNameOK()
 Model: is NOT logged in with session
 Model: Inside checkIfLoggedInWithCookies()
-R0: wantsToRegisterUser
+R0: wantsToRegisterUserInside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R7: getHasJustTriedToLogin
+R8: getUserNameMissing
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R7: getHasJustTriedToLogin
+R9: getPasswordMissing
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R7: getHasJustTriedToLogin
+R8: getUserNameMissing
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R7: getHasJustTriedToLogin
+R10: getPasswordMissing
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R7: getHasJustTriedToLogin
+R10: getPasswordMissing
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+Model: checkIfLoggedInSuccessfully
+R1: getIsLoggedInWithSession
+R1: getHasJustTriedToLogin and getIsLoggedInWithForm
+R3: getKeepUserLoggedIn
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: isLoggedInWithSession
+R1: getIsLoggedInWithSession
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+R15: else
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+Model: checkIfLoggedInSuccessfully
+R1: getIsLoggedInWithSession
+R1: getHasJustTriedToLogin and getIsLoggedInWithForm
+R3: getKeepUserLoggedIn
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Model: isLoggedInWithSession
+R1: getIsLoggedInWithSession
+R1: getHasJustTriedToLogin and getIsLoggedInWithForm
+R4: getIsLoggedInWithSession
