@@ -4,7 +4,23 @@ Cookie name is set
 Cookie name equals correct user name
 Inside isCookiePasswordOK()
 Cookie password is set
-Cookie password: bananab65e6711e155375218212b3964
+Cookie password: dc647eb65e6711e155375218212b3964
 Encrypted password: dc647eb65e6711e155375218212b3964
-Cookie password does NOT equal correct password
-R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSessionR14: else
+Cookie password equals correct password
+Cookie name and password are ok
+Model: is NOT logged in with session
+Model: Inside checkIfLoggedInWithCookies()
+Model: function checkIfLoggedInWithCookies(), Inside getIsLoggedInWithCookies()
+Inside isCookieContentOK()
+Inside isCookieNameOK()
+Cookie name is set
+Cookie name equals correct user name
+Inside isCookiePasswordOK()
+Cookie password is set
+Cookie password: dc647eb65e6711e155375218212b3964
+Encrypted password: dc647eb65e6711e155375218212b3964
+Cookie password equals correct password
+Cookie name and password are ok
+Model: function checkIfLoggedInWithCookies(), else
+R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSession
+R14: else

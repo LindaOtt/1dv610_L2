@@ -26,6 +26,7 @@ class LoginModel {
   private $isLoggedIn = false;
   private $keepUserLoggedIn = false;
   private $failedLoginAttempt = false;
+  private $isLoggedInWithCookiesAndNoSession = false;
 
   private $firstLoginWithoutSession = false;
 
@@ -73,19 +74,31 @@ class LoginModel {
 
     //The user is logged in with a session
     if ($this->isLoggedInWithSession()) {
+      error_log("Model: isLoggedInWithSession\n", 3, "errors.log");
       $this->checkIfLoggedOutWithSession();
     }
 
     //The user is not logged in with a session
     else {
+      error_log("Model: is NOT logged in with session\n", 3, "errors.log");
       //Checks if the user is logged out without session, if so stop executing main function
-      if ($this->checkIfLoggedOutWithoutSession() == true) { return true; };
-
-      //Check if the user logged in successfully, if so stop executing main function
-      if ($this->checkIfLoggedInSuccessfully() == true) { return true; };
+      if ($this->checkIfLoggedOutWithoutSession() == true) {
+        error_log("Model: checkIfLoggedOutWithoutSession\n", 3, "errors.log");
+        return true;
+      }
 
       //Check if the user is logged in with cookies, if so stop executing main function
-      if ($this->checkIfLoggedInWithCookies() == true) { return true; };
+      if ($this->checkIfLoggedInWithCookies() == true) {
+        error_log("Model: checkIfLoggedInWithCookies was true\n", 3, "errors.log");
+        return true;
+      }
+
+      //Check if the user logged in successfully, if so stop executing main function
+      if ($this->checkIfLoggedInSuccessfully() == true) {
+        error_log("Model: checkIfLoggedInSuccessfully\n", 3, "errors.log");
+        return true;
+      }
+
     }
   }
 
@@ -140,20 +153,27 @@ class LoginModel {
   }
 
   function checkIfLoggedInWithCookies() {
+    error_log("Model: Inside checkIfLoggedInWithCookies()\n", 3, "errors.log");
+
     //Check if the user is logged in with cookies
     if ($this->getIsLoggedInWithCookies()) {
+      error_log("Model: function checkIfLoggedInWithCookies(), Inside getIsLoggedInWithCookies()\n", 3, "errors.log");
       //Check if the cookies are ok ()
-      if ($this->isCookieContentOK == true) {
+      if ($this->isCookieContentOK()) {
+        error_log("Model: function checkIfLoggedInWithCookies(), isCookieContentOK\n", 3, "errors.log");
         $this->isLoggedIn = true;
+        $this->isLoggedInWithCookiesAndNoSession = true;
         return true;
       }
       else {
+        error_log("Model: function checkIfLoggedInWithCookies(), else\n", 3, "errors.log");
         //Remove cookies
         $this->createLoginCookies(time()-1000, false);
         $this->isLoggedIn = false;
         $this->failedLoginAttempt = true;
         return false;
       }
+
     }
     return false;
   }
@@ -164,6 +184,10 @@ class LoginModel {
 
   function getHasLoggedOutWithoutSession() {
     return $this->hasLoggedOutWithoutSession;
+  }
+
+  function getIsLoggedInWithCookiesAndNoSession() {
+    return $this->isLoggedInWithCookiesAndNoSession;
   }
 
   function setHasLoggedOutWithoutSession($hasLoggedOutWithoutSession) {
@@ -229,7 +253,12 @@ class LoginModel {
   }
 
   function isLoggedInWithSession() {
-    return isset ($_SESSION[self::$LOGIN_SESSION_ID]) == true;
+    if (isset ($_SESSION[self::$LOGIN_SESSION_ID])) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   function isLoggedInWithForm() {
@@ -280,14 +309,17 @@ class LoginModel {
     }
     else {
       //If it does, check if the time in the text file matches the time of the cookie
-      $contentLine = $this->getLineFromString($this->dbFilePath, $this->getSessionID());
+      $contentLine = $this->getLineWithString('db/db.txt', $this->getSessionID());
       error_log("contentLine: $contentLine\n", 3, "errors.log");
       //Get the last part of the line that contains the time
-      $contents = explode(']', $contentLine);
-      $timeText = end($contents);
+      //$contents = explode(']', $contentLine);
+      //$timeText = end($contents);
+      //$text = 'ignore everything except this (text)';
+      preg_match('/\[(.*?)\]/', $contentLine, $match);
+      $timeText=$match[1];
       error_log("timeText: $timeText\n", 3, "errors.log");
 
-      if ($timeText == $this->getSessionID) {
+      if ($timeText == $this->getSessionID()) {
         error_log("timeText equals session id\n", 3, "errors.log");
         return true;
       }
@@ -355,9 +387,12 @@ class LoginModel {
     error_log("Inside isCookieContentOK()\n", 3, "errors.log");
     if ($this->isCookieNameOK() && $this->isCookiePasswordOK()) {
       error_log("Cookie name and password are ok\n", 3, "errors.log");
-      if ($this->isCookieTimeOK()) {
-        error_log("Cookie time is ok\n", 3, "errors.log");
-        return true;
+      //Only check cookie time if there is an active session id
+      if ($this->isLoggedInWithSession()) {
+        if ($this->isCookieTimeOK()) {
+          error_log("Cookie time is ok\n", 3, "errors.log");
+          return true;
+        }
       }
     }
     return false;

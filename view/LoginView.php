@@ -44,63 +44,75 @@ class LoginView {
 			error_log("R0: wantsToRegisterUser", 3, "errors.log");
 			$response = $this->generateRegisterNewUserHTML();
 		}
-		//The user has just tried to log in and is logged in successfully
-		else if ($loginModel->getHasJustTriedToLogin() && $loginModel->getIsLoggedInWithForm()) {
-			error_log("R1: getHasJustTriedToLogin and getIsLoggedInWithForm", 3, "errors.log");
-			//The user has selected "Keep me logged in"
-			if ($loginModel->getKeepUserLoggedIn()) {
-				error_log("R2: getKeepUserLoggedIn", 3, "errors.log");
-				$this->message = 'Welcome and you will be remembered';
-			}
-			else if ($loginModel->getFirstLoginWithoutSession() == true) {
-				error_log("R3: getKeepUserLoggedIn\n", 3, "errors.log");
-				$this->message = 'Welcome';
-			}
-			//The user is already logged in with a session
-			else if ($loginModel->getIsLoggedInWithSession()) {
-				error_log("R4: getIsLoggedInWithSession", 3, "errors.log");
-				$this->message = '';
-			}
-			else {
-				error_log("R5: else", 3, "errors.log");
-				$this->message = 'Welcome';
+
+		//The user is logged in with session
+		if ($loginModel->getIsLoggedInWithSession()) {
+			error_log("R1: getIsLoggedInWithSession\n", 3, "errors.log");
+			//The user has just tried to log in and is logged in successfully
+			if ($loginModel->getHasJustTriedToLogin() && $loginModel->getIsLoggedInWithForm()) {
+				error_log("R1: getHasJustTriedToLogin and getIsLoggedInWithForm\n", 3, "errors.log");
+				//The user has selected "Keep me logged in"
+				if ($loginModel->getKeepUserLoggedIn()) {
+					if ($loginModel->getFirstLoginWithoutSession() == true) {
+						error_log("R2: getKeepUserLoggedIn and getFirstLoginWithoutSession\n", 3, "errors.log");
+						$this->message = 'Welcome and you will be remembered';
+					}
+					else {
+						error_log("R3: getKeepUserLoggedIn and NOT getFirstLoginWithoutSession\n", 3, "errors.log");
+						$this->message = '';
+					}
+				}
+				else if ($loginModel->getFirstLoginWithoutSession() == true) {
+					error_log("R3: getKeepUserLoggedIn\n", 3, "errors.log");
+					$this->message = 'Welcome';
+				}
+				//The user is already logged in with a session
+				else if ($loginModel->getIsLoggedInWithSession()) {
+					error_log("R4: getIsLoggedInWithSession\n", 3, "errors.log");
+					$this->message = '';
+				}
+				else {
+					error_log("R5: else", 3, "errors.log");
+					$this->message = 'Welcome';
+				}
+				//$response = $this->generateLogoutButtonHTML($this->message);
 			}
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		//The user is logged in with session and is not logged in with cookies
 		else if ($loginModel->getIsLoggedInWithSession() && !$loginModel->getIsLoggedInWithCookies()) {
-			error_log("R6: getIsLoggedInWithSession and NOT getIsLoggedInWithCookies", 3, "errors.log");
+			error_log("R6: getIsLoggedInWithSession and NOT getIsLoggedInWithCookies\n", 3, "errors.log");
 			$this->message = '';
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		//The user has just tried to log in but is not logged in successfully
 		else if ($loginModel->getHasJustTriedToLogin()) {
-			error_log("R7: getHasJustTriedToLogin", 3, "errors.log");
+			error_log("R7: getHasJustTriedToLogin\n", 3, "errors.log");
 			//The user name is missing from the form
 			if ($loginModel->getUserNameMissing()) {
-				error_log("R8: getUserNameMissing", 3, "errors.log");
+				error_log("R8: getUserNameMissing\n", 3, "errors.log");
 				$this->message = 'Username is missing';
 			}
 			//The password is missing from the form
 			else if ($loginModel->getPasswordMissing()) {
-				error_log("R9: getPasswordMissing", 3, "errors.log");
+				error_log("R9: getPasswordMissing\n", 3, "errors.log");
 				$this->message = 'Password is missing';
 			}
 			else {
-				error_log("R10: getPasswordMissing", 3, "errors.log");
+				error_log("R10: getPasswordMissing\n", 3, "errors.log");
 				$this->message = 'Wrong name or password';
 			}
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 		//The user has just pressed the logout button
 		else if ($this->hasLoggedOut()) {
-			error_log("R9: hasLoggedOut", 3, "errors.log");
+			error_log("R9: hasLoggedOut\n", 3, "errors.log");
 			if ($loginModel->getHasLoggedOutWithoutSession() == true) {
-				error_log("R10: getHasLoggedOutWithoutSession", 3, "errors.log");
+				error_log("R10: getHasLoggedOutWithoutSession\n", 3, "errors.log");
 				$this->message = '';
 			}
 			else {
-				error_log("R11: else", 3, "errors.log");
+				error_log("R11: else\n", 3, "errors.log");
 				$this->message = 'Bye bye!';
 			}
 			$response = $this->generateLoginFormHTML($this->message);
@@ -108,20 +120,21 @@ class LoginView {
 		else {
 			//The user is logged in with cookies but not logged in with session
 			if ($loginModel->getIsLoggedInWithCookies() == true && !$loginModel->getIsLoggedInWithSession()) {
-				error_log("R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSession", 3, "errors.log");
+				error_log("R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSession\n", 3, "errors.log");
 				//The cookies are ok
 				if ($loginModel->getIsCookieContentOK() == true) {
-					error_log("R13: getIsCookieContentOK", 3, "errors.log");
+					error_log("R13: getIsCookieContentOK\n", 3, "errors.log");
 					$this->message = 'Welcome back with cookie';
 					$response = $this->generateLogoutButtonHTML($this->message);
 				}
 				else {
-					error_log("R14: else", 3, "errors.log");
+					error_log("R14: else\n", 3, "errors.log");
 					$this->message = 'Wrong information in cookies';
 					$response = $this->generateLoginFormHTML($this->message);
 				}
 			}
 			else {
+				error_log("R15: else\n", 3, "errors.log");
 				$response = $this->generateLoginFormHTML($this->message);
 			}
 		}
