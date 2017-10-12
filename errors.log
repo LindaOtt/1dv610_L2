@@ -1,114 +1,78 @@
-Inside isCookieContentOK()
-Inside isCookieNameOK()
+isLoggedInWithSession()
+isSessionOk(): contentLine: 99c10148f9196d1d1a6ecf8b17dcd221,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
+
+In getUserAgent()
+In getIpAddress()
+isSessionOk(): 
+ 99c10148f9196d1d1a6ecf8b17dcd221 
+ 99c10148f9196d1d1a6ecf8b17dcd221
+isSessionOk(): 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
+isSessionOk(): 
+ 127.0.0.1 
+ 127.0.0.1 
+Session id is the same
+Session data in browser and in database are NOT the same
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+isSessionOk(): contentLine: 99c10148f9196d1d1a6ecf8b17dcd221,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
+
+In getUserAgent()
+In getIpAddress()
+isSessionOk(): 
+ 99c10148f9196d1d1a6ecf8b17dcd221 
+ 99c10148f9196d1d1a6ecf8b17dcd221
+isSessionOk(): 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
+isSessionOk(): 
+ 127.0.0.1 
+ 127.0.0.1 
+Session id is the same
+Session data in browser and in database are NOT the same
 Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R0: wantsToRegisterUserR15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
+Model: In checkIfLoggedInWithCookies()
+isLoggedInWithSession()
+isSessionOk(): contentLine: 99c10148f9196d1d1a6ecf8b17dcd221,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
+
+In getUserAgent()
+In getIpAddress()
+isSessionOk(): 
+ 99c10148f9196d1d1a6ecf8b17dcd221 
+ 99c10148f9196d1d1a6ecf8b17dcd221
+isSessionOk(): 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
+isSessionOk(): 
+ 127.0.0.1 
+ 127.0.0.1 
+Session id is the same
+Session data in browser and in database are NOT the same
+isLoggedInWithSession()
+isSessionOk(): contentLine: 99c10148f9196d1d1a6ecf8b17dcd221,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
+
+In getUserAgent()
+In getIpAddress()
+isSessionOk(): 
+ 99c10148f9196d1d1a6ecf8b17dcd221 
+ 99c10148f9196d1d1a6ecf8b17dcd221
+isSessionOk(): 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
+isSessionOk(): 
+ 127.0.0.1 
+ 127.0.0.1 
+Session id is the same
+Session data in browser and in database are NOT the same
 R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
+isLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
 Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R0: wantsToRegisterUserInside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
+Model: In checkIfLoggedInWithCookies()
+isLoggedInWithSession()
+isLoggedInWithSession()
 R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R0: wantsToRegisterUserInside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R7: getHasJustTriedToLogin
-R8: getUserNameMissing
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R7: getHasJustTriedToLogin
-R9: getPasswordMissing
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R7: getHasJustTriedToLogin
-R8: getUserNameMissing
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R7: getHasJustTriedToLogin
-R10: getPasswordMissing
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R7: getHasJustTriedToLogin
-R10: getPasswordMissing
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-Model: checkIfLoggedInSuccessfully
-R1: getIsLoggedInWithSession
-R1: getHasJustTriedToLogin and getIsLoggedInWithForm
-R3: getKeepUserLoggedIn
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: isLoggedInWithSession
-R1: getIsLoggedInWithSession
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-R15: else
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: is NOT logged in with session
-Model: Inside checkIfLoggedInWithCookies()
-Model: checkIfLoggedInSuccessfully
-R1: getIsLoggedInWithSession
-R1: getHasJustTriedToLogin and getIsLoggedInWithForm
-R3: getKeepUserLoggedIn
-Inside isCookieContentOK()
-Inside isCookieNameOK()
-Model: isLoggedInWithSession
-R1: getIsLoggedInWithSession
-R1: getHasJustTriedToLogin and getIsLoggedInWithForm
-R4: getIsLoggedInWithSession
