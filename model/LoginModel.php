@@ -491,8 +491,11 @@ class LoginModel {
     $users = parse_ini_file(self::$DB_USERS);
     $salt = $users['salt'];
 
+    //Generate a random number
+    $random = rand(1,1000000);
+
     //Creating a randomized password to store in cookie
-    return md5($contentToEncrypt.$salt);
+    return md5($contentToEncrypt.$random.$salt);
   }
 
   function isCookieContentOk() : bool{
