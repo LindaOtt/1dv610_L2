@@ -487,7 +487,12 @@ class LoginModel {
   }
 
   function encrypt($contentToEncrypt) : string {
-    return md5($contentToEncrypt);
+    //Get the salt from the users file
+    $users = parse_ini_file(self::$DB_USERS);
+    $salt = $users['salt'];
+
+    //Creating a randomized password to store in cookie
+    return md5($contentToEncrypt.$salt);
   }
 
   function isCookieContentOk() : bool{

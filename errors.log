@@ -7,13 +7,14 @@ isSessionOk():
  99c10148f9196d1d1a6ecf8b17dcd221 
  99c10148f9196d1d1a6ecf8b17dcd221
 isSessionOk(): 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
 isSessionOk(): 
  127.0.0.1 
  127.0.0.1 
 Session id is the same
-Session data in browser and in database are NOT the same
+User agent is the same
+Ip address is the same
 In isCookieContentOk()
 In isCookieNameOk()
 isLoggedInWithSession()
@@ -25,15 +26,15 @@ isSessionOk():
  99c10148f9196d1d1a6ecf8b17dcd221 
  99c10148f9196d1d1a6ecf8b17dcd221
 isSessionOk(): 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
 isSessionOk(): 
  127.0.0.1 
  127.0.0.1 
 Session id is the same
-Session data in browser and in database are NOT the same
-Model: is NOT logged in with session
-Model: In checkIfLoggedInWithCookies()
+User agent is the same
+Ip address is the same
+Model: isLoggedInWithSession
 isLoggedInWithSession()
 isSessionOk(): contentLine: 99c10148f9196d1d1a6ecf8b17dcd221,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
 
@@ -43,30 +44,15 @@ isSessionOk():
  99c10148f9196d1d1a6ecf8b17dcd221 
  99c10148f9196d1d1a6ecf8b17dcd221
 isSessionOk(): 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
 isSessionOk(): 
  127.0.0.1 
  127.0.0.1 
 Session id is the same
-Session data in browser and in database are NOT the same
-isLoggedInWithSession()
-isSessionOk(): contentLine: 99c10148f9196d1d1a6ecf8b17dcd221,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
-
-In getUserAgent()
-In getIpAddress()
-isSessionOk(): 
- 99c10148f9196d1d1a6ecf8b17dcd221 
- 99c10148f9196d1d1a6ecf8b17dcd221
-isSessionOk(): 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
-isSessionOk(): 
- 127.0.0.1 
- 127.0.0.1 
-Session id is the same
-Session data in browser and in database are NOT the same
-R15: else
+User agent is the same
+Ip address is the same
+R1: getIsLoggedInWithSession
 isLoggedInWithSession()
 In isCookieContentOk()
 In isCookieNameOk()
@@ -76,3 +62,33 @@ Model: In checkIfLoggedInWithCookies()
 isLoggedInWithSession()
 isLoggedInWithSession()
 R15: else
+isLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+In getUserAgent()
+storeSessionData(): userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
+In getIpAddress()
+storeSessionData(): ipAddress: 127.0.0.1Model: checkIfLoggedInSuccessfully
+isLoggedInWithSession()
+isSessionOk(): contentLine: 86c219de096fff643033a68c768b6945,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
+
+In getUserAgent()
+In getIpAddress()
+isSessionOk(): 
+ 86c219de096fff643033a68c768b6945 
+ 86c219de096fff643033a68c768b6945
+isSessionOk(): 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
+ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
+isSessionOk(): 
+ 127.0.0.1 
+ 127.0.0.1 
+Session id is the same
+User agent is the same
+Ip address is the same
+R1: getIsLoggedInWithSession
+R2: getHasJustTriedToLogin and getIsLoggedInWithForm
+R3: getKeepUserLoggedIn and getFirstLoginWithoutSession
