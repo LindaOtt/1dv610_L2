@@ -134,7 +134,6 @@ class LoginModel {
 
     $encryptedPassword = md5($originalPassword . self::$SALT);
 
-    error_log("EncryptedPassword: $encryptedPassword\n", 3, "errors.log");
     return $encryptedPassword;
   }
 
@@ -399,12 +398,10 @@ class LoginModel {
   }
 
   function getUserAgent() : string{
-    error_log("In getUserAgent()\n", 3, "errors.log");
     return $_SERVER['HTTP_USER_AGENT'];
   }
 
   function getIpAddress() : string{
-    error_log("In getIpAddress()\n", 3, "errors.log");
     return $_SERVER['REMOTE_ADDR'];
   }
 
