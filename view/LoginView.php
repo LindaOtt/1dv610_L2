@@ -46,8 +46,14 @@ class LoginView {
 					$response = $this->generateLoginFormHTML($this->message);
 				}
 				else {
-					if ($registerModel->getIsRegisterNameOk() == false || $registerModel->getRegisterPasswordOk() == false) {
-						$this->message = "Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.";
+					if ($registerModel->getIsRegisterNameOk() == false) {
+						$this->message = "Username has too few characters, at least 3 characters.";
+					}
+					if ($registerModel->getRegisterPasswordOk() == false) {
+						if (strlen($this->message)>0) {
+							$this->message .= " ";
+						}
+						$this->message .= "Password has too few characters, at least 6 characters.";
 					}
 					$response = $registerView->generateRegisterNewUserHTML($this->message);
 				}

@@ -49,7 +49,7 @@ class RegisterModel {
     return false;
   }
 
-  function getIsPasswordOk() {
+  function getRegisterPasswordOk() {
     if ($this->registerPasswordOk == true) {
       return true;
     }
