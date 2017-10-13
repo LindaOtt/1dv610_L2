@@ -8,8 +8,8 @@ namespace model;
 class LoginModel {
   private $submitUsername;
   private $submitPassword;
-  private $correctUserName;
-  private $correctPassword;
+  private $databaseUserName;
+  private $databasePassword;
 
   private $sessionUserName;
   private $sessionPassword;
@@ -38,6 +38,9 @@ class LoginModel {
   private static $DB_SESSION = 'db/db_session.txt';
   private static $DB_USERS = 'db/db_users.ini';
 
+  //Salt used to encrypt user passwords
+  private static $SALT = '5FeWq21O&3/+\643Bxlll$_?%3Fz72B..PYaS';
+
   function __construct($formLoginName, $formPassword, $hasJustTriedToLogin, $hasLoggedOut, $keepUserLoggedIn) {
     assert(session_status() != PHP_SESSION_NONE);
 
@@ -54,13 +57,15 @@ class LoginModel {
     $this->submitUsername = $formLoginName;
     $this->submitPassword = $formPassword;
 
-    //Getting the correct username and password from the users file
+    //Getting the database username and password from the users file
     $users = parse_ini_file(self::$DB_USERS);
-    $this->correctUserName = $users['user'];
-    $this->correctPassword = $users['password'];
+    $this->databaseUserName = $users['user'];
+    $this->databasePassword = $users['password'];
 
     $this->submitUsername = $formLoginName;
     $this->submitPassword = $formPassword;
+
+    //$this->createEncryptedPassword('Password');
 
     //Check if the user is logged in
     $this->checkLoginState();
@@ -104,6 +109,29 @@ class LoginModel {
       }
 
     }
+  }
+
+  //Creates random string of known length
+  function createRandomString() : string {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+    $string = '';
+
+    for ($i = 0; $i < 20; $i++) {
+        $string .= $characters[mt_rand(0, strlen($characters) - 1)];
+    }
+
+    return $string;
+  }
+
+  //Takes original password as parameter and creates encrypted password
+  //that can be stored in cookie
+  function createEncryptedPassword($originalPassword) : string{
+
+    $encryptedPassword = md5($originalPassword . self::$SALT);
+    //$encryptedPassword = md5($originalPassword . self::$SALT);
+
+    error_log("EncryptedPassword: $encryptedPassword\n", 3, "errors.log");
+    return $encryptedPassword;
   }
 
   function getIsLoggedIn() {
@@ -150,7 +178,9 @@ class LoginModel {
       }
       //The user has clicked "keep me logged in" in the form
       if ($this->getKeepUserLoggedIn() == true) {
-        $this->createLoginCookies(time()+180, true);
+        $time = time()+180;
+        $this->createLoginCookies($time, true);
+        $this->storeSessionCookieData($time);
       }
       return true;
     }
@@ -194,12 +224,6 @@ class LoginModel {
   function getHasLoggedOutWithoutSession() {
     return $this->hasLoggedOutWithoutSession;
   }
-
-/*
-  function getIsLoggedInWithCookiesAndNoSession() {
-    return $this->isLoggedInWithCookiesAndNoSession;
-  }
-  */
 
   function setHasLoggedOutWithoutSession($hasLoggedOutWithoutSession) {
     $this->hasLoggedOutWithoutSession = $hasLoggedOutWithoutSession;
@@ -249,14 +273,23 @@ class LoginModel {
   * Check that the submitted username matches the username in the settings file
   */
   function userNameIsCorrect() {
-    return ($this->submitUsername == $this->correctUserName) == true;
+    return ($this->submitUsername == $this->databaseUserName) == true;
   }
 
   /**
-  * Check that the submitted password matches the password in the settings file
+  * Check that the submitted password matches the password in the database
   */
   function passwordIsCorrect() {
-    return ($this->submitPassword == $this->correctPassword) == true;
+    //Encrypt the submitted password
+    $encryptedSubmitPassword = $this->createEncryptedPassword($this->submitPassword);
+
+    //Remove the random string from the password in the database
+    $databasePasswordWithoutRandom = substr($this->databasePassword, 0, -20);
+    error_log("LoginModel: passWordIsCorrect():\n", 3, "errors.log");
+    error_log("encryptedSubmitPassword: $encryptedSubmitPassword\n", 3, "errors.log");
+    error_log("databasePasswordWithoutRandom: $databasePasswordWithoutRandom\n", 3, "errors.log");
+
+    return ($encryptedSubmitPassword == $databasePasswordWithoutRandom) == true;
   }
 
   function loginIsCorrect() {
@@ -340,20 +373,24 @@ class LoginModel {
       return false;
   }
 
-  //Create login cookie and store
-  //function createLoginCookies($time, $storeTime) {
+  //Create login cookie and store it in database file
   function createLoginCookies($time) {
-    setcookie(self::$COOKIE_NAME, $this->correctUserName, $time);
-    setcookie(self::$COOKIE_PASSWORD, $this->encrypt($this->correctPassword), $time);
-    $this->storeCookieData($time);
+    setcookie(self::$COOKIE_NAME, $this->databaseUserName, $time);
+    //Create random string
+    $randomString = $this->createRandomString();
+    //Create encrypted password with random string
+    $encryptedPassword = $this->createEncryptedPassword($this->databasePassword).$randomString;
+    setcookie(self::$COOKIE_PASSWORD, $encryptedPassword, $time);
   }
 
-  //Stores session id, cookie time, user agent and ip address
-  function storeCookieData($time) {
+  //Stores session id and cookie time
+  function storeSessionCookieData($time) {
     // Open the cookie data file to get existing content
     $content = file_get_contents(self::$DB_COOKIES);
+
     //Append session id to file
     $content .= "\n[".$this->getSessionID()."] ";
+
     // Append the time to the file
     $content .= $time;
 
@@ -452,8 +489,8 @@ class LoginModel {
     error_log("In isCookieNameOk()\n", 3, "errors.log");
     if (isset($_COOKIE[self::$COOKIE_NAME])) {
       error_log("Cookie name is set\n", 3, "errors.log");
-      //return ($_COOKIE[self::$COOKIE_NAME] == $this->correctUserName);
-      if (($_COOKIE[self::$COOKIE_NAME] == $this->correctUserName)) {
+      //return ($_COOKIE[self::$COOKIE_NAME] == $this->databaseUserName);
+      if (($_COOKIE[self::$COOKIE_NAME] == $this->databaseUserName)) {
         error_log("Cookie name equals correct user name\n", 3, "errors.log");
         return true;
       }
@@ -469,12 +506,13 @@ class LoginModel {
     error_log("In isCookiePasswordOk()\n", 3, "errors.log");
     if (isset($_COOKIE[self::$COOKIE_PASSWORD])) {
       error_log("Cookie password is set\n", 3, "errors.log");
-      //return ($_COOKIE[self::$COOKIE_PASSWORD] == $this->encrypt($this->correctPassword));
       $storedCookiePassword = $_COOKIE[self::$COOKIE_PASSWORD];
-      $encryptedPassword = $this->encrypt($this->correctPassword);
+
+      //Removing the random string from the cookie password
+      $storedCookiePassword = substr($storedCookiePassword, 0, -20);
       error_log("Cookie password: $storedCookiePassword\n", 3, "errors.log");
-      error_log("Encrypted password: $encryptedPassword\n", 3, "errors.log");
-      if ($_COOKIE[self::$COOKIE_PASSWORD] == $this->encrypt($this->correctPassword)) {
+      
+      if ($storedCookiePassword == $this->databasePassword) {
         error_log("Cookie password equals correct password\n", 3, "errors.log");
         return true;
       }
@@ -487,15 +525,9 @@ class LoginModel {
   }
 
   function encrypt($contentToEncrypt) : string {
-    //Get the salt from the users file
-    $users = parse_ini_file(self::$DB_USERS);
-    $salt = $users['salt'];
 
-    //Generate a random number
-    $random = rand(1,1000000);
-
-    //Creating a randomized password to store in cookie
-    return md5($contentToEncrypt.$random.$salt);
+    //Creating a salted password
+    return md5($contentToEncrypt.$self::SALT);
   }
 
   function isCookieContentOk() : bool{

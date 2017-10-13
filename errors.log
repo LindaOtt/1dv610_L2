@@ -1,11 +1,11 @@
 isLoggedInWithSession()
-isSessionOk(): contentLine: 86c219de096fff643033a68c768b6945,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
+isSessionOk(): contentLine: 34d7e6a3b02482b63d3b631a9e7703f4,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
 
 In getUserAgent()
 In getIpAddress()
 isSessionOk(): 
- 86c219de096fff643033a68c768b6945 
- 86c219de096fff643033a68c768b6945
+ 34d7e6a3b02482b63d3b631a9e7703f4 
+ 34d7e6a3b02482b63d3b631a9e7703f4
 isSessionOk(): 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
@@ -15,16 +15,26 @@ isSessionOk():
 Session id is the same
 User agent is the same
 Ip address is the same
+EncryptedPassword: bd43bea7668379eebaea51601a883e6e
+LoginModel: passWordIsCorrect():
+encryptedSubmitPassword: bd43bea7668379eebaea51601a883e6e
+databasePasswordWithoutRandom: bd43bea7668379eebaea51601a883e6e
 In isCookieContentOk()
 In isCookieNameOk()
+Cookie name is set
+Cookie name equals correct user name
+In isCookiePasswordOk()
+Cookie password is set
+Cookie password: 8084871b784553b9d480c636eb03aad2
+Cookie password does NOT equal correct password
 isLoggedInWithSession()
-isSessionOk(): contentLine: 86c219de096fff643033a68c768b6945,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
+isSessionOk(): contentLine: 34d7e6a3b02482b63d3b631a9e7703f4,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
 
 In getUserAgent()
 In getIpAddress()
 isSessionOk(): 
- 86c219de096fff643033a68c768b6945 
- 86c219de096fff643033a68c768b6945
+ 34d7e6a3b02482b63d3b631a9e7703f4 
+ 34d7e6a3b02482b63d3b631a9e7703f4
 isSessionOk(): 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
@@ -36,50 +46,13 @@ User agent is the same
 Ip address is the same
 Model: isLoggedInWithSession
 isLoggedInWithSession()
-isSessionOk(): contentLine: 86c219de096fff643033a68c768b6945,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
+isSessionOk(): contentLine: 34d7e6a3b02482b63d3b631a9e7703f4,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
 
 In getUserAgent()
 In getIpAddress()
 isSessionOk(): 
- 86c219de096fff643033a68c768b6945 
- 86c219de096fff643033a68c768b6945
-isSessionOk(): 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
-isSessionOk(): 
- 127.0.0.1 
- 127.0.0.1 
-Session id is the same
-User agent is the same
-Ip address is the same
-R1: getIsLoggedInWithSession
-isLoggedInWithSession()
-In isCookieContentOk()
-In isCookieNameOk()
-isLoggedInWithSession()
-Model: is NOT logged in with session
-Model: In checkIfLoggedInWithCookies()
-isLoggedInWithSession()
-isLoggedInWithSession()
-R15: else
-isLoggedInWithSession()
-In isCookieContentOk()
-In isCookieNameOk()
-isLoggedInWithSession()
-Model: is NOT logged in with session
-Model: In checkIfLoggedInWithCookies()
-In getUserAgent()
-storeSessionData(): userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
-In getIpAddress()
-storeSessionData(): ipAddress: 127.0.0.1Model: checkIfLoggedInSuccessfully
-isLoggedInWithSession()
-isSessionOk(): contentLine: f2973b754c39f2e141d7d91a004dab2a,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
-
-In getUserAgent()
-In getIpAddress()
-isSessionOk(): 
- f2973b754c39f2e141d7d91a004dab2a 
- f2973b754c39f2e141d7d91a004dab2a
+ 34d7e6a3b02482b63d3b631a9e7703f4 
+ 34d7e6a3b02482b63d3b631a9e7703f4
 isSessionOk(): 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
@@ -91,84 +64,4 @@ User agent is the same
 Ip address is the same
 R1: getIsLoggedInWithSession
 R2: getHasJustTriedToLogin and getIsLoggedInWithForm
-R3: getKeepUserLoggedIn and getFirstLoginWithoutSession
-isLoggedInWithSession()
-isSessionOk(): contentLine: f2973b754c39f2e141d7d91a004dab2a,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
-
-In getUserAgent()
-In getIpAddress()
-isSessionOk(): 
- f2973b754c39f2e141d7d91a004dab2a 
- f2973b754c39f2e141d7d91a004dab2a
-isSessionOk(): 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
-isSessionOk(): 
- 127.0.0.1 
- 127.0.0.1 
-Session id is the same
-User agent is the same
-Ip address is the same
-In isCookieContentOk()
-In isCookieNameOk()
-isLoggedInWithSession()
-isSessionOk(): contentLine: f2973b754c39f2e141d7d91a004dab2a,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
-
-In getUserAgent()
-In getIpAddress()
-isSessionOk(): 
- f2973b754c39f2e141d7d91a004dab2a 
- f2973b754c39f2e141d7d91a004dab2a
-isSessionOk(): 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
-isSessionOk(): 
- 127.0.0.1 
- 127.0.0.1 
-Session id is the same
-User agent is the same
-Ip address is the same
-Model: isLoggedInWithSession
-isLoggedInWithSession()
-isLoggedInWithSession()
-R9: hasLoggedOut
-R11: else
-isLoggedInWithSession()
-In isCookieContentOk()
-In isCookieNameOk()
-isLoggedInWithSession()
-Model: is NOT logged in with session
-Model: In checkIfLoggedInWithCookies()
-isLoggedInWithSession()
-isLoggedInWithSession()
-R15: else
-isLoggedInWithSession()
-In isCookieContentOk()
-In isCookieNameOk()
-isLoggedInWithSession()
-Model: is NOT logged in with session
-Model: In checkIfLoggedInWithCookies()
-In getUserAgent()
-storeSessionData(): userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
-In getIpAddress()
-storeSessionData(): ipAddress: 127.0.0.1Model: checkIfLoggedInSuccessfully
-isLoggedInWithSession()
-isSessionOk(): contentLine: 2a75554a532a4f2f51e4078383cd68d9,,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36,,,127.0.0.1
-
-In getUserAgent()
-In getIpAddress()
-isSessionOk(): 
- 2a75554a532a4f2f51e4078383cd68d9 
- 2a75554a532a4f2f51e4078383cd68d9
-isSessionOk(): 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 
-isSessionOk(): 
- 127.0.0.1 
- 127.0.0.1 
-Session id is the same
-User agent is the same
-Ip address is the same
-R1: getIsLoggedInWithSession
-R2: getHasJustTriedToLogin and getIsLoggedInWithForm
-R3: getKeepUserLoggedIn and getFirstLoginWithoutSession
+R4: else
