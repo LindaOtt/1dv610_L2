@@ -43,15 +43,15 @@ class RegisterModel {
     return false;
   }
 
-  function getIfRegisterNameIsOk() {
-    if ($registerUserNameOk == true) {
+  function getIsRegisterNameOk() {
+    if ($this->registerUserNameOk == true) {
       return true;
     }
     return false;
   }
 
-  function getIfPasswordIsOk() {
-    if ($registerPasswordOk == true) {
+  function getIsPasswordOk() {
+    if ($this->registerPasswordOk == true) {
       return true;
     }
     return false;

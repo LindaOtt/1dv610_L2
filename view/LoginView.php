@@ -41,10 +41,17 @@ class LoginView {
 		if ($registerView->wantsToRegisterUser()) {
 			error_log("R0: wantsToRegisterUser", 3, "errors.log");
 			//Check if the user has submitted a username
-			if ($this->registerView->getRegisterUserName()) {
-				//$this->message =
+			if ($registerModel->getIsRegisterNameOk() && $registerModel->getRegisterPasswordOk()) {
+				$this->message = "Registered new user";
+				$response = $this->generateLoginFormHTML($this->message);
 			}
-			$response = $this->registerView->generateRegisterNewUserHTML();
+			else {
+				if ($registerModel->getIsRegisterNameOk() == false || $registerModel->getRegisterPasswordOk() == false) {
+					$this->message = "Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.";
+				}
+				$response = $registerView->generateRegisterNewUserHTML($this->message);
+			}
+
 		}
 
 		//The user is logged in with session

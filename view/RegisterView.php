@@ -18,13 +18,13 @@ class RegisterView {
   }
 
 
-  function generateRegisterNewUserHTML() {
+  function generateRegisterNewUserHTML($message) {
 		return '
 			<h2>Register new user</h2>
 			<form action="?register" method="post" enctype="multipart/form-data">
 				<fieldset>
 					<legend>Register a new user - Write username and password</legend>
-					<p id="' . self::$nameid . '"></p>
+					<p id="' . self::$nameid . '">' . $message . '</p>
 					<label for="' . self::$nameregister . '">Username :</label>
 					<input type="text" size="20" id="' . self::$nameregister . '" name="' . self::$nameregister . '" value="" />
 					<br/>
