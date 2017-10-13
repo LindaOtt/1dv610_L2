@@ -9,6 +9,15 @@ class RegisterView {
 	private static $passwordrepeat = 'RegisterView::PasswordRepeat';
   private static $registerbutton = 'RegisterView::RegisterButton';
 
+  private $nameValue = '';
+  private $registerValue = '';
+
+  function __construct() {
+    $this->nameValue = $this->getRegisterUserName();
+    $this->passwordValue = $this->getRegisterPassword();
+  }
+
+
   function generateRegisterNewUserHTML() {
 		return '
 			<h2>Register new user</h2>
@@ -30,5 +39,33 @@ class RegisterView {
 				</fieldset>
 			</form>
 		';
+	}
+
+  function getRegisterUserName() : string {
+    if (isset($_REQUEST[self::$nameregister])) {
+      return $_REQUEST[self::$nameregister];
+		}
+    return '';
+  }
+
+  function getRegisterPassword() : string {
+    if (isset($_REQUEST[self::$passwordregister])) {
+      $this->registerPassword = $_REQUEST[self::$passwordregister];
+			return $this->registerPassword;
+		}
+    return '';
+  }
+
+  function createRegister() : \model\RegisterModel {
+    return new \model\RegisterModel($this->nameValue, $this->passwordValue);
+  }
+
+  public function wantsToRegisterUser() : bool {
+		if (isset($_GET['register'])) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

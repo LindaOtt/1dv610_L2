@@ -1,10 +1,9 @@
 <?php
 
 namespace view;
-
 class LayoutView {
 
-  public function render($isLoggedIn, $failedLoginAttempt, $wantsToRegisterUser, \model\LoginModel $loginModel, \view\LoginView $v, \view\DateTimeView $dtv) {
+  public function render(\model\LoginModel $loginModel, \view\LoginView $v, \view\DateTimeView $dtv, \model\RegisterModel $registerModel, \view\RegisterView $registerView) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -14,11 +13,11 @@ class LayoutView {
         <body>
 
           <h1>Assignment 2</h1>
-          ' . $this->renderRegisterUser($isLoggedIn, $failedLoginAttempt, $wantsToRegisterUser) .
-              $this->renderIsLoggedIn($isLoggedIn) . '
+          ' . $this->renderRegisterUser($loginModel->getIsLoggedIn(), $loginModel->getFailedLoginAttempt(), $registerView->wantsToRegisterUser()) .
+              $this->renderIsLoggedIn($loginModel->getIsLoggedIn()) . '
 
           <div class="container">
-              ' . $v->response($loginModel) . '
+              ' . $v->response($loginModel,$registerModel,$registerView) . '
 
               ' . $dtv->showDateAndTime() . '
           </div>

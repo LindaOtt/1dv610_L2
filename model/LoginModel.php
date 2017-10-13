@@ -120,6 +120,7 @@ class LoginModel {
         return true;
       }
 
+      //Check if the user has submitted the register form
       
 
     }

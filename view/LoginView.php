@@ -1,8 +1,6 @@
 <?php
 namespace view;
 
-require_once('RegisterView.php');
-
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -26,7 +24,7 @@ class LoginView {
 		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
 		$this->hasLoggedOut = $this->hasLoggedOut();
 		$this->keepUserLoggedIn = $this->keepUserLoggedIn();
-		$this->wantsToRegisterUser = $this->wantsToRegisterUser();
+		//$this->wantsToRegisterUser = $this->wantsToRegisterUser();
 		$this->registerView = new \view\RegisterView();
 	}
 
@@ -38,10 +36,14 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 * TO DO: Simplify function
 	 */
-	public function response(\model\LoginModel $loginModel) {
+	public function response(\model\LoginModel $loginModel, \model\RegisterModel $registerModel, \view\RegisterView $registerView) {
 		$response = '';
-		if ($this->wantsToRegisterUser()) {
+		if ($registerView->wantsToRegisterUser()) {
 			error_log("R0: wantsToRegisterUser", 3, "errors.log");
+			//Check if the user has submitted a username
+			if ($this->registerView->getRegisterUserName()) {
+				//$this->message =
+			}
 			$response = $this->registerView->generateRegisterNewUserHTML();
 		}
 
@@ -139,6 +141,8 @@ class LoginView {
 		return $response;
 	}
 
+
+
 	/**
 	* Generate HTML code on the output buffer for the logout button
 	* @param $message, String output message
@@ -192,8 +196,8 @@ class LoginView {
 		return (isset($_REQUEST[self::$keep])) == true;
 	}
 
+/*
 	public function wantsToRegisterUser() : bool {
-
 		if (isset($_GET['register'])) {
 			return true;
 		}
@@ -201,6 +205,7 @@ class LoginView {
 			return false;
 		}
 	}
+*/
 
 	public function createLogin() : \model\LoginModel {
 		//RETURN REQUEST VARIABLE: USERNAME
@@ -212,7 +217,6 @@ class LoginView {
 			$this->passwordValue = $_REQUEST[self::$password];
 		}
 
-		//TO DO: Check that $retName and $retPassword are in the correct format
 		return new \model\LoginModel($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut, $this->keepUserLoggedIn);
 	}
 }
