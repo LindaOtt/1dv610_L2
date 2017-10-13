@@ -264,3 +264,75 @@ Cookie password equals correct password
 Cookie name and password are ok
 isLoggedInWithSession()
 R13: getIsCookieContentOK
+isLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+isLoggedInWithSession()
+isLoggedInWithSession()
+R15: else
+isLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+R0: wantsToRegisterUserisLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+R0: wantsToRegisterUserisLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+isLoggedInWithSession()
+isLoggedInWithSession()
+R15: else
+isLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+R0: wantsToRegisterUserisLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+R0: wantsToRegisterUserisLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+R0: wantsToRegisterUserisLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+isLoggedInWithSession()
+isLoggedInWithSession()
+R15: else
+isLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+R0: wantsToRegisterUserisLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+Model: In checkIfLoggedInWithCookies()
+isLoggedInWithSession()
+isLoggedInWithSession()
+R15: else

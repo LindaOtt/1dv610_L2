@@ -1,8 +1,5 @@
 <?php
-//To do: Add md5-hash encryption and salt when saving usernames and passwords
-//Add salt to settings file
-//Don't save username and password on GitHub, generate each time
-//Add plenty of validation in register class
+//To do: Add plenty of validation in register class
 namespace model;
 
 class LoginModel {
@@ -34,6 +31,9 @@ class LoginModel {
   private static $COOKIE_NAME = "LoginView::CookieName";
   private static $COOKIE_PASSWORD = "LoginView::CookiePassword";
 
+  private static $DB_USER_NAME = 'user';
+  private static $DB_PASSWORD_NAME = 'password';
+
   private static $DB_COOKIES = 'db/db_cookies.txt';
   private static $DB_SESSION = 'db/db_session.txt';
   private static $DB_USERS = 'db/db_users.ini';
@@ -59,8 +59,8 @@ class LoginModel {
 
     //Getting the database username and password from the users file
     $users = parse_ini_file(self::$DB_USERS);
-    $this->databaseUserName = $users['user'];
-    $this->databasePassword = $users['password'];
+    $this->databaseUserName = $users[self::$DB_USER_NAME];
+    $this->databasePassword = $users[self::$DB_PASSWORD_NAME];
 
     $this->submitUsername = $formLoginName;
     $this->submitPassword = $formPassword;
@@ -81,7 +81,7 @@ class LoginModel {
     $this->isLoggedInWithCookies = $this->isThereALoginCookie();
     $this->isCookieContentOk = $this->isCookieContentOk();
 
-    //The user is logged in with a session
+    //Check if user is logged in with a session
     if ($this->isLoggedInWithSession()) {
       error_log("Model: isLoggedInWithSession\n", 3, "errors.log");
       $this->checkIfLoggedOutWithSession();
@@ -92,13 +92,16 @@ class LoginModel {
       error_log("Model: is NOT logged in with session\n", 3, "errors.log");
       //Checks if the user is logged out without session, if so stop executing main function
       if ($this->checkIfLoggedOutWithoutSession() == true) {
+        //Set that the user has logged out without session
+        $this->setHasLoggedOutWithoutSession(true);
         error_log("Model: checkIfLoggedOutWithoutSession\n", 3, "errors.log");
         return true;
       }
 
       //Check if the user is logged in with cookies, if so stop executing main function
-      if ($this->checkIfLoggedInWithCookies() == true) {
-        error_log("Model: checkIfLoggedInWithCookies was true\n", 3, "errors.log");
+      if ($this->getIsLoggedInWithCookies() == true) {
+        error_log("Model: getIsLoggedInWithCookies was true\n", 3, "errors.log");
+        $this->checkIsCookieContentOk();
         return true;
       }
 
@@ -157,7 +160,6 @@ class LoginModel {
   function checkIfLoggedOutWithoutSession() {
     //The user has just clicked the "logout" button
     if ($this->hasLoggedOut == true) {
-        $this->setHasLoggedOutWithoutSession(true);
         return true;
     }
     return false;
@@ -191,30 +193,21 @@ class LoginModel {
     return $this->failedLoginAttempt;
   }
 
-  function checkIfLoggedInWithCookies() {
-    error_log("Model: In checkIfLoggedInWithCookies()\n", 3, "errors.log");
-
-    //Check if the user is logged in with cookies
-    if ($this->getIsLoggedInWithCookies()) {
-      error_log("Model: function checkIfLoggedInWithCookies(), Inside getIsLoggedInWithCookies()\n", 3, "errors.log");
-      //Check if the cookies are ok ()
-      if ($this->isCookieContentOk()) {
-        error_log("Model: function checkIfLoggedInWithCookies(), isCookieContentOk\n", 3, "errors.log");
-        $this->isLoggedIn = true;
-        $this->isLoggedInWithCookiesAndNoSession = true;
-        return true;
-      }
-      else {
-        error_log("Model: function checkIfLoggedInWithCookies(), else\n", 3, "errors.log");
-        //Remove cookies
-        $this->createLoginCookies(time()-1000, false);
-        $this->isLoggedIn = false;
-        $this->failedLoginAttempt = true;
-        return false;
-      }
-
+  function checkIsCookieContentOk() {
+    if ($this->isCookieContentOk()) {
+      error_log("Model: isCookieContentOk\n", 3, "errors.log");
+      $this->isLoggedIn = true;
+      $this->isLoggedInWithCookiesAndNoSession = true;
+      return true;
     }
-    return false;
+    else {
+      error_log("Model: isCookieContentOk, else\n", 3, "errors.log");
+      //Remove cookies
+      $this->createLoginCookies(time()-1000, false);
+      $this->isLoggedIn = false;
+      $this->failedLoginAttempt = true;
+      return false;
+    }
   }
 
   function setIsLoggedInWithSession($isLoggedInWithSession) {

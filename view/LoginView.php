@@ -1,6 +1,8 @@
 <?php
 namespace view;
 
+require_once('RegisterView.php');
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -10,12 +12,13 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	/*
 	private static $nameregister = 'RegisterView::UserName';
 	private static $nameid = 'RegisterView::Message';
 	private static $passwordregister = 'RegisterView::Password';
 	private static $passwordrepeat = 'RegisterView::PasswordRepeat';
-	private static $registerbutton = 'LoginView::RegisterButton';
-
+	private static $registerbutton = 'RegisterView::RegisterButton';
+	*/
 	private $nameValue = '';
 	private $passwordValue = '';
 	private $message = '';
@@ -24,11 +27,14 @@ class LoginView {
 	private $keepUserLoggedIn = false;
 	private $wantsToRegisterUser = false;
 
+	private $registerView;
+
 	function __construct() {
 		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
 		$this->hasLoggedOut = $this->hasLoggedOut();
 		$this->keepUserLoggedIn = $this->keepUserLoggedIn();
 		$this->wantsToRegisterUser = $this->wantsToRegisterUser();
+		$this->registerView = new \view\RegisterView();
 	}
 
 	/**
@@ -43,7 +49,7 @@ class LoginView {
 		$response = '';
 		if ($this->wantsToRegisterUser()) {
 			error_log("R0: wantsToRegisterUser", 3, "errors.log");
-			$response = $this->generateRegisterNewUserHTML();
+			$response = $this->registerView->generateRegisterNewUserHTML();
 		}
 
 		//The user is logged in with session
@@ -181,31 +187,6 @@ class LoginView {
 			</form>
 		';
 	}
-
-	private function generateRegisterNewUserHTML() {
-		return '
-			<h2>Register new user</h2>
-			<form action="?register" method="post" enctype="multipart/form-data">
-				<fieldset>
-					<legend>Register a new user - Write username and password</legend>
-					<p id="' . self::$nameid . '"></p>
-					<label for="' . self::$nameregister . '">Username :</label>
-					<input type="text" size="20" id="' . self::$nameregister . '" name="' . self::$nameregister . '" value="'. $this->nameValue .'" />
-					<br/>
-					<label for="' . self::$passwordregister . '">Password :</label>
-					<input type="password" id="' . self::$passwordregister . '" name="' . self::$passwordregister . '" />
-					<br/>
-					<label for="' . self::$passwordrepeat . '">Repeat password :</label>
-					<input type="password" size="20" id="' . self::$passwordrepeat . '" name="' . self::$passwordrepeat . '" />
-					<br/>
-					<input id="submit" type="submit" name="' . self::$registerbutton . '" value="Register" />
-					<br/>
-				</fieldset>
-			</form>
-		';
-	}
-
-
 
 	public function hasJustTriedToLogIn() : bool {
 		return (isset($_REQUEST[self::$name]) || isset($_REQUEST[self::$password])) == true;
