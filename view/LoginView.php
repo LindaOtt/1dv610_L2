@@ -12,13 +12,6 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	/*
-	private static $nameregister = 'RegisterView::UserName';
-	private static $nameid = 'RegisterView::Message';
-	private static $passwordregister = 'RegisterView::Password';
-	private static $passwordrepeat = 'RegisterView::PasswordRepeat';
-	private static $registerbutton = 'RegisterView::RegisterButton';
-	*/
 	private $nameValue = '';
 	private $passwordValue = '';
 	private $message = '';
@@ -82,7 +75,6 @@ class LoginView {
 					error_log("R7: else", 3, "errors.log");
 					$this->message = 'Welcome';
 				}
-				//$response = $this->generateLogoutButtonHTML($this->message);
 			}
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}

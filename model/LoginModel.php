@@ -65,8 +65,6 @@ class LoginModel {
     $this->submitUsername = $formLoginName;
     $this->submitPassword = $formPassword;
 
-    //$this->createEncryptedPassword('Password');
-
     //Check if the user is logged in
     $this->checkLoginState();
   }
@@ -108,8 +106,21 @@ class LoginModel {
       //Check if the user logged in successfully, if so stop executing main function
       if ($this->checkIfLoggedInSuccessfully() == true) {
         error_log("Model: checkIfLoggedInSuccessfully\n", 3, "errors.log");
+        //Try to create a login session
+        if ($this->createLoginSession()) {
+          //If a login session was created, store the session data
+          $this->storeSessionData();
+        }
+        //The user has clicked "keep me logged in" in the form
+        if ($this->getKeepUserLoggedIn() == true) {
+          $time = time()+180;
+          $this->createLoginCookies($time, true);
+          $this->storeSessionCookieData($time);
+        }
         return true;
       }
+
+      
 
     }
   }
@@ -131,7 +142,6 @@ class LoginModel {
   function createEncryptedPassword($originalPassword) : string{
 
     $encryptedPassword = md5($originalPassword . self::$SALT);
-    //$encryptedPassword = md5($originalPassword . self::$SALT);
 
     error_log("EncryptedPassword: $encryptedPassword\n", 3, "errors.log");
     return $encryptedPassword;
@@ -173,17 +183,7 @@ class LoginModel {
       $this->firstLoginWithoutSession = true;
       $this->keepUserLogin = false;
 
-      //Try to create a login session
-      if ($this->createLoginSession()) {
-        //If a login session was created, store the session data
-        $this->storeSessionData();
-      }
-      //The user has clicked "keep me logged in" in the form
-      if ($this->getKeepUserLoggedIn() == true) {
-        $time = time()+180;
-        $this->createLoginCookies($time, true);
-        $this->storeSessionCookieData($time);
-      }
+
       return true;
     }
     return false;
@@ -335,9 +335,6 @@ class LoginModel {
       error_log("isSessionOk(): \n $currentUserAgent \n $sessionData[1] \n", 3, "errors.log");
       error_log("isSessionOk(): \n $currentIpAddress \n $sessionData[2] \n", 3, "errors.log");
 
-      //var_dump($sessionData[2]);
-      //var_dump($currentIpAddress);
-
       if ($sessionData[0] == $currentSessionId) {
         error_log("Session id is the same\n", 3, "errors.log");
         if ($sessionData[1] == $currentUserAgent) {
@@ -393,10 +390,9 @@ class LoginModel {
 
 
   function storeSessionData() {
-    //$file = self::$DB_SESSION;
+
     // Open the session data file to get existing content
     $content = file_get_contents(self::$DB_SESSION);
-    //$content = file_get_contents('$file');
 
     //Append session id to file
     $content .= $this->getSessionID();
@@ -482,7 +478,6 @@ class LoginModel {
     error_log("In isCookieNameOk()\n", 3, "errors.log");
     if (isset($_COOKIE[self::$COOKIE_NAME])) {
       error_log("Cookie name is set\n", 3, "errors.log");
-      //return ($_COOKIE[self::$COOKIE_NAME] == $this->databaseUserName);
       if (($_COOKIE[self::$COOKIE_NAME] == $this->databaseUserName)) {
         error_log("Cookie name equals correct user name\n", 3, "errors.log");
         return true;
@@ -509,8 +504,6 @@ class LoginModel {
 
       error_log("Stored cookie password: $storedCookiePassword\n", 3, "errors.log");
       error_log("Encrypted db password: $encryptedDatabasePassword\n", 3, "errors.log");
-      //var_dump($storedCookiePassword);
-      //var_dump($encryptedDatabasePassword);
 
 
       if ($storedCookiePassword == $encryptedDatabasePassword) {

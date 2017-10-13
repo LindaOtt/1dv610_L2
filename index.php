@@ -22,4 +22,9 @@ $loginView = new \view\LoginView();
 $loginModel = $loginView->createLogin();
 
 $controller = new \controller\LoginController($loginModel, $layoutView, $loginView, $dateTimeView);
-$controller->runLoginSystem();
+try {
+  $controller->runLoginSystem();
+}
+catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
