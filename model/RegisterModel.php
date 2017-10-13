@@ -20,7 +20,6 @@ class RegisterModel {
       }
   }
 
-
   private function checkIfIsStringAndIsRightLength($variableToCheck, $desiredLength) : bool {
     if ($this->checkIfString($variableToCheck) && $this->checkisRightLength($variableToCheck, $desiredLength)) {
       return true;

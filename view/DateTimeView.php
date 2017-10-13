@@ -10,5 +10,4 @@ class DateTimeView {
 		return '<p>' . $timeString . '</p>';
 	}
 
-
 }

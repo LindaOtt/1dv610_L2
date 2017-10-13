@@ -1,5 +1,4 @@
 <?php
-//To do: Add plenty of validation in register class
 namespace model;
 
 class LoginModel {
@@ -81,31 +80,26 @@ class LoginModel {
 
     //Check if user is logged in with a session
     if ($this->isLoggedInWithSession()) {
-      error_log("Model: isLoggedInWithSession\n", 3, "errors.log");
       $this->checkIfLoggedOutWithSession();
     }
 
     //The user is not logged in with a session
     else {
-      error_log("Model: is NOT logged in with session\n", 3, "errors.log");
       //Checks if the user is logged out without session, if so stop executing main function
       if ($this->checkIfLoggedOutWithoutSession() == true) {
         //Set that the user has logged out without session
         $this->setHasLoggedOutWithoutSession(true);
-        error_log("Model: checkIfLoggedOutWithoutSession\n", 3, "errors.log");
         return true;
       }
 
       //Check if the user is logged in with cookies, if so stop executing main function
       if ($this->getIsLoggedInWithCookies() == true) {
-        error_log("Model: getIsLoggedInWithCookies was true\n", 3, "errors.log");
         $this->checkIsCookieContentOk();
         return true;
       }
 
       //Check if the user logged in successfully, if so stop executing main function
       if ($this->checkIfLoggedInSuccessfully() == true) {
-        error_log("Model: checkIfLoggedInSuccessfully\n", 3, "errors.log");
         //Try to create a login session
         if ($this->createLoginSession()) {
           //If a login session was created, store the session data
@@ -119,10 +113,6 @@ class LoginModel {
         }
         return true;
       }
-
-      //Check if the user has submitted the register form
-      
-
     }
   }
 
@@ -183,8 +173,6 @@ class LoginModel {
       $this->isLoggedIn = true;
       $this->firstLoginWithoutSession = true;
       $this->keepUserLogin = false;
-
-
       return true;
     }
     return false;
@@ -196,13 +184,11 @@ class LoginModel {
 
   function checkIsCookieContentOk() {
     if ($this->isCookieContentOk()) {
-      error_log("Model: isCookieContentOk\n", 3, "errors.log");
       $this->isLoggedIn = true;
       $this->isLoggedInWithCookiesAndNoSession = true;
       return true;
     }
     else {
-      error_log("Model: isCookieContentOk, else\n", 3, "errors.log");
       //Remove cookies
       $this->createLoginCookies(time()-1000, false);
       $this->isLoggedIn = false;
@@ -279,10 +265,6 @@ class LoginModel {
 
     //Remove the random string from the password in the database
     $databasePasswordWithoutRandom = substr($this->databasePassword, 0, -20);
-    error_log("LoginModel: passWordIsCorrect():\n", 3, "errors.log");
-    error_log("encryptedSubmitPassword: $encryptedSubmitPassword\n", 3, "errors.log");
-    error_log("databasePasswordWithoutRandom: $databasePasswordWithoutRandom\n", 3, "errors.log");
-
     return ($encryptedSubmitPassword == $databasePasswordWithoutRandom) == true;
   }
 
@@ -291,7 +273,6 @@ class LoginModel {
   }
 
   function isLoggedInWithSession() {
-    error_log("isLoggedInWithSession()\n", 3, "errors.log");
     if (isset ($_SESSION[self::$LOGIN_SESSION_ID])) {
       //Check if browser session, ip and user agent corresponds with database
       if ($this->isSessionOk($_SESSION[self::$LOGIN_SESSION_ID])) {
@@ -315,7 +296,6 @@ class LoginModel {
     else {
       //If it does, check if the time in the text file matches the time of the cookie
       $contentLine = $this->getLineWithString(self::$DB_SESSION, $this->getSessionID());
-      error_log("isSessionOk(): contentLine: $contentLine\n", 3, "errors.log");
       //Dividing the content line by divider ",,," into an array $sessionData
       //Where sessionData[0]=session id, sessionData[1]=user agent, sessionData[2]=ip address
       $sessionData = explode(",,,", $contentLine);
@@ -332,21 +312,13 @@ class LoginModel {
       //Removing line break from ip address
       $sessionData[2] = str_replace(PHP_EOL, '', $sessionData[2]);
 
-      error_log("isSessionOk(): \n $currentSessionId \n $sessionData[0]\n", 3, "errors.log");
-      error_log("isSessionOk(): \n $currentUserAgent \n $sessionData[1] \n", 3, "errors.log");
-      error_log("isSessionOk(): \n $currentIpAddress \n $sessionData[2] \n", 3, "errors.log");
-
       if ($sessionData[0] == $currentSessionId) {
-        error_log("Session id is the same\n", 3, "errors.log");
         if ($sessionData[1] == $currentUserAgent) {
-          error_log("User agent is the same\n", 3, "errors.log");
           if ($sessionData[2] == $currentIpAddress) {
-              error_log("Ip address is the same\n", 3, "errors.log");
               return true;
           }
         }
       }
-      error_log("Session data in browser and in database are NOT the same\n", 3, "errors.log");
       return false;
     }
   }
@@ -401,15 +373,11 @@ class LoginModel {
     //Get the http user agent
     $userAgent = $this->getUserAgent();
 
-    error_log("storeSessionData(): userAgent: $userAgent\n", 3, "errors.log");
-
     //Append the user agent to the file
     $content .= ",,," . $userAgent;
 
     //Get the ip address
     $ipAddress = $this->getIpAddress();
-
-    error_log("storeSessionData(): ipAddress: $ipAddress", 3, "errors.log");
 
     //Append the ip address to the file, and a line break that adapts to the OS
     $content .= ",,," . $ipAddress . PHP_EOL;
@@ -476,15 +444,11 @@ class LoginModel {
   }
 
   function isCookieNameOk() : bool {
-    error_log("In isCookieNameOk()\n", 3, "errors.log");
     if (isset($_COOKIE[self::$COOKIE_NAME])) {
-      error_log("Cookie name is set\n", 3, "errors.log");
       if (($_COOKIE[self::$COOKIE_NAME] == $this->databaseUserName)) {
-        error_log("Cookie name equals correct user name\n", 3, "errors.log");
         return true;
       }
       else {
-        error_log("Cookie name does not equal correct user name\n", 3, "errors.log");
         return false;
       }
     }
@@ -492,9 +456,7 @@ class LoginModel {
   }
 
   function isCookiePasswordOk() : bool {
-    error_log("In isCookiePasswordOk()\n", 3, "errors.log");
     if (isset($_COOKIE[self::$COOKIE_PASSWORD])) {
-      error_log("Cookie password is set\n", 3, "errors.log");
       $storedCookiePassword = $_COOKIE[self::$COOKIE_PASSWORD];
 
       //Removing the random string from the cookie password
@@ -503,16 +465,10 @@ class LoginModel {
       //Encrypt database password
       $encryptedDatabasePassword = $this->createEncryptedPassword($this->databasePassword);
 
-      error_log("Stored cookie password: $storedCookiePassword\n", 3, "errors.log");
-      error_log("Encrypted db password: $encryptedDatabasePassword\n", 3, "errors.log");
-
-
       if ($storedCookiePassword == $encryptedDatabasePassword) {
-        error_log("Cookie password equals correct password\n", 3, "errors.log");
         return true;
       }
       else {
-        error_log("Cookie password does NOT equal correct password\n", 3, "errors.log");
         return false;
       }
     }
@@ -520,19 +476,15 @@ class LoginModel {
   }
 
   function encrypt($contentToEncrypt) : string {
-
     //Creating a salted password
     return md5($contentToEncrypt.$self::SALT);
   }
 
   function isCookieContentOk() : bool{
-    error_log("In isCookieContentOk()\n", 3, "errors.log");
     if ($this->isCookieNameOk() && $this->isCookiePasswordOk()) {
-      error_log("Cookie name and password are ok\n", 3, "errors.log");
       //Only check cookie time if there is an active session id
       if ($this->isLoggedInWithSession()) {
         if ($this->isCookieTimeOk()) {
-          error_log("Cookie time is ok\n", 3, "errors.log");
           return true;
         }
         else {

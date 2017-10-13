@@ -17,7 +17,6 @@ class RegisterView {
     $this->passwordValue = $this->getRegisterPassword();
   }
 
-
   function generateRegisterNewUserHTML($message) {
 		return '
 			<h2>Register new user</h2>
