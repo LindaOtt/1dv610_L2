@@ -510,9 +510,17 @@ class LoginModel {
 
       //Removing the random string from the cookie password
       $storedCookiePassword = substr($storedCookiePassword, 0, -20);
-      error_log("Cookie password: $storedCookiePassword\n", 3, "errors.log");
-      
-      if ($storedCookiePassword == $this->databasePassword) {
+
+      //Encrypt database password
+      $encryptedDatabasePassword = $this->createEncryptedPassword($this->databasePassword);
+
+      error_log("Stored cookie password: $storedCookiePassword\n", 3, "errors.log");
+      error_log("Encrypted db password: $encryptedDatabasePassword\n", 3, "errors.log");
+      //var_dump($storedCookiePassword);
+      //var_dump($encryptedDatabasePassword);
+
+
+      if ($storedCookiePassword == $encryptedDatabasePassword) {
         error_log("Cookie password equals correct password\n", 3, "errors.log");
         return true;
       }

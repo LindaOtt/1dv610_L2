@@ -86,6 +86,21 @@ class LoginView {
 			$this->message = '';
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
+		//The user is logged in with cookies but not logged in with session
+		else if ($loginModel->getIsLoggedInWithCookies() == true && !$loginModel->getIsLoggedInWithSession()) {
+				error_log("R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSession\n", 3, "errors.log");
+				//The cookies are ok
+				if ($loginModel->isCookieContentOK() == true) {
+					error_log("R13: getIsCookieContentOK\n", 3, "errors.log");
+					$this->message = 'Welcome back with cookie';
+					$response = $this->generateLogoutButtonHTML($this->message);
+				}
+				else {
+					error_log("R14: else\n", 3, "errors.log");
+					$this->message = 'Wrong information in cookies';
+					$response = $this->generateLoginFormHTML($this->message);
+				}
+		}
 		//The user has just tried to log in but is not logged in successfully
 		else if ($loginModel->getHasJustTriedToLogin()) {
 			error_log("R9: getHasJustTriedToLogin\n", 3, "errors.log");
@@ -119,25 +134,8 @@ class LoginView {
 			$response = $this->generateLoginFormHTML($this->message);
 		}
 		else {
-			//The user is logged in with cookies but not logged in with session
-			if ($loginModel->getIsLoggedInWithCookies() == true && !$loginModel->getIsLoggedInWithSession()) {
-				error_log("R12: getIsLoggedInWithCookies and NOT getIsLoggedInWithSession\n", 3, "errors.log");
-				//The cookies are ok
-				if ($loginModel->isCookieContentOK() == true) {
-					error_log("R13: getIsCookieContentOK\n", 3, "errors.log");
-					$this->message = 'Welcome back with cookie';
-					$response = $this->generateLogoutButtonHTML($this->message);
-				}
-				else {
-					error_log("R14: else\n", 3, "errors.log");
-					$this->message = 'Wrong information in cookies';
-					$response = $this->generateLoginFormHTML($this->message);
-				}
-			}
-			else {
 				error_log("R15: else\n", 3, "errors.log");
 				$response = $this->generateLoginFormHTML($this->message);
-			}
 		}
 
 		return $response;
