@@ -64,8 +64,13 @@ class RegisterView {
 		if (isset($_GET['register'])) {
 			return true;
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
+
+  public function registerFormHasBeenPosted() : bool {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      return true;
+    }
+    return false;
+  }
 }

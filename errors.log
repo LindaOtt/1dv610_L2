@@ -112,3 +112,22 @@ In runLoginSystem()
 isLoggedInWithSession()
 isLoggedInWithSession()
 R15: else
+isLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+In runLoginSystem()
+R0: wantsToRegisterUserisLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+In runLoginSystem()
+R0: wantsToRegisterUserisLoggedInWithSession()
+In isCookieContentOk()
+In isCookieNameOk()
+isLoggedInWithSession()
+Model: is NOT logged in with session
+In runLoginSystem()
+R0: wantsToRegisterUser
