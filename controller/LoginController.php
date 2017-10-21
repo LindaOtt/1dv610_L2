@@ -8,8 +8,6 @@ class LoginController {
   private $dateTimeView;
   private $registerModel;
   private $registerView;
-  private $isLoggedIn = false;
-  private $failedLoginAttempt = false;
 
   function __construct(\model\LoginModel $loginModel, \view\LayoutView $layoutView, \view\LoginView $loginView, \view\DateTimeView $dateTimeView, \model\RegisterModel $registerModel, \view\RegisterView $registerView) {
     $this->loginModel = $loginModel;

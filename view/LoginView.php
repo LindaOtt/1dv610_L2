@@ -13,9 +13,6 @@ class LoginView {
 	private $nameValue = '';
 	private $passwordValue = '';
 	private $message = '';
-	private $hasJustTriedToLogIn = false;
-	private $hasLoggedOut = false;
-	private $keepUserLoggedIn = false;
 	private $wantsToRegisterUser = false;
 
 	private $registerView;
@@ -24,7 +21,6 @@ class LoginView {
 		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
 		$this->hasLoggedOut = $this->hasLoggedOut();
 		$this->keepUserLoggedIn = $this->keepUserLoggedIn();
-		//$this->wantsToRegisterUser = $this->wantsToRegisterUser();
 		$this->registerView = new \view\RegisterView();
 	}
 

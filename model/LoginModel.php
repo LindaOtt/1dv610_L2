@@ -14,7 +14,6 @@ class LoginModel {
   private $isLoggedInWithCookies = false;
   private $isCookieContentOk = false;
   private $userNameMissing = false;
-  private $passwordMissing = false;
   private $hasJustTriedToLogIn = false;
   private $hasLoggedOut = false;
   private $hasLoggedOutWithoutSession = false;
