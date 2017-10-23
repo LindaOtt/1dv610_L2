@@ -15,7 +15,7 @@ class LoginModel {
   private $isLoggedOutWithoutSession = false;
   private $isLoggedInWithForm = false;
   private $isLoggedInWithCookies = false;
-  private $cookieContentIsOk = false;
+  private $isCookieContentOk = false;
   //private $hasJustTriedToLogIn = false;
 
 
@@ -85,7 +85,7 @@ class LoginModel {
     $this->isLoggedInWithCookies = $this->isThereALoginCookie();
 
     //Check if the cookie content is ok
-    $this->cookieContentIsOk = $this->isCookieContentOk();
+    $this->isCookieContentOk = $this->isCookieContentOk();
 
     /*
     if ($this->hasJustTriedToLogin) {
@@ -151,10 +151,6 @@ class LoginModel {
     return $this->isLoggedInWithCookies;
   }
 
-  function getCookieContentIsOk() {
-    return $this->cookieContentIsOk;
-  }
-
   //Creates random string of known length
   function createRandomString() : string {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -170,9 +166,7 @@ class LoginModel {
   //Takes original password as parameter and creates encrypted password
   //that can be stored in cookie
   function createEncryptedPassword($originalPassword) : string{
-
     $encryptedPassword = md5($originalPassword . self::$SALT);
-
     return $encryptedPassword;
   }
 
@@ -218,10 +212,11 @@ class LoginModel {
 
   function checkIsCookieContentOk() {
     if ($this->isCookieContentOk()) {
-      $this->isLoggedIn = true;
-      $this->isLoggedInWithCookiesAndNoSession = true;
+      //$this->isLoggedIn = true;
+      //$this->isLoggedInWithCookiesAndNoSession = true;
       return true;
     }
+    /*
     else {
       //Remove cookies
       $this->createLoginCookies(time()-1000, false);
@@ -229,8 +224,13 @@ class LoginModel {
       $this->failedLoginAttempt = true;
       return false;
     }
+    */
+    return false;
   }
 
+  function removeCookies() {
+    $this->createLoginCookies(time()-1000, false);
+  }
   function setIsLoggedInWithSession($isLoggedInWithSession) {
     $this->isLoggedInWithSession = false;
   }

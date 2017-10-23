@@ -10,17 +10,20 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	private $nameValue = '';
-	private $passwordValue = '';
-	private $message = '';
+	//private $nameValue = '';
+	//private $passwordValue = '';
+	//private $message = '';
 	private $wantsToRegisterUser = false;
 
 	private $registerView;
+
+	private $messageState = 0;
 
 	function __construct() {
 		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
 		$this->hasLoggedOut = $this->hasLoggedOut();
 		$this->keepUserLoggedIn = $this->keepUserLoggedIn();
+
 		//$this->registerView = new \view\RegisterView();
 	}
 
@@ -137,8 +140,13 @@ class LoginView {
 	}
 	*/
 
-	public function response() {
-		$response = $this->generateLoginFormHTML($this->message);
+	public function response($message,$generateLogout) : string {
+		if ($generateLogout == true) {
+			$response = $this->generateLogoutButtonHTML($message);
+		}
+		else {
+			$response = $this->generateLoginFormHTML($message);
+		}
 		return $response;
 	}
 
@@ -169,7 +177,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'. $this->nameValue .'" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'. $this->getFormNameValue() .'" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -196,15 +204,21 @@ class LoginView {
 	}
 
 	public function createLogin() : \model\LoginModel {
-		if (isset($_REQUEST[self::$name])) {
-			$this->nameValue = $_REQUEST[self::$name];
-		}
-
-		if (isset($_REQUEST[self::$password])) {
-			$this->passwordValue = $_REQUEST[self::$password];
-		}
-
 		//return new \model\LoginModel($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut, $this->keepUserLoggedIn);
-		return new \model\LoginModel($this->nameValue, $this->passwordValue);
+		return new \model\LoginModel($this->getFormNameValue(), $this->getFormPasswordValue());
+	}
+
+	public function getFormNameValue() : string {
+		if (isset($_REQUEST[self::$name])) {
+			return $_REQUEST[self::$name];
+		}
+		return '';
+	}
+
+	public function getFormPasswordValue() : string {
+		if (isset($_REQUEST[self::$password])) {
+			return $_REQUEST[self::$password];
+		}
+		return '';
 	}
 }
