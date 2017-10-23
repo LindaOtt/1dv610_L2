@@ -21,7 +21,7 @@ class LoginView {
 		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
 		$this->hasLoggedOut = $this->hasLoggedOut();
 		$this->keepUserLoggedIn = $this->keepUserLoggedIn();
-		$this->registerView = new \view\RegisterView();
+		//$this->registerView = new \view\RegisterView();
 	}
 
 	/**
@@ -32,6 +32,8 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 * TO DO: Simplify function
 	 */
+
+	 /*
 	public function response(\model\LoginModel $loginModel, \model\RegisterModel $registerModel, \view\RegisterView $registerView) {
 		$response = '';
 		if ($registerView->wantsToRegisterUser()) {
@@ -133,6 +135,12 @@ class LoginView {
 		}
 		return $response;
 	}
+	*/
+
+	public function response() {
+		$response = $this->generateLoginFormHTML($this->message);
+		return $response;
+	}
 
 	/**
 	* Generate HTML code on the output buffer for the logout button
@@ -196,6 +204,7 @@ class LoginView {
 			$this->passwordValue = $_REQUEST[self::$password];
 		}
 
-		return new \model\LoginModel($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut, $this->keepUserLoggedIn);
+		//return new \model\LoginModel($this->nameValue, $this->passwordValue, $this->hasJustTriedToLogIn, $this->hasLoggedOut, $this->keepUserLoggedIn);
+		return new \model\LoginModel($this->nameValue, $this->passwordValue);
 	}
 }

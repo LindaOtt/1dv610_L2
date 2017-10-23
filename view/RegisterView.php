@@ -1,6 +1,8 @@
 <?php
 namespace view;
 
+require_once('model/RegisterModel.php');
+
 class RegisterView {
 
 	private static $nameregister = 'RegisterView::UserName';

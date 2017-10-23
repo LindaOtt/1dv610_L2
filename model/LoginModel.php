@@ -7,19 +7,25 @@ class LoginModel {
   private $databaseUserName;
   private $databasePassword;
 
-  private $sessionUserName;
-  private $sessionPassword;
+  //private $sessionUserName;
+  //private $sessionPassword;
+
   private $isLoggedInWithSession = false;
+  private $isLoggedOutWithSession = false;
+  private $isLoggedOutWithoutSession = false;
   private $isLoggedInWithForm = false;
   private $isLoggedInWithCookies = false;
-  private $isCookieContentOk = false;
+  private $cookieContentIsOk = false;
+  //private $hasJustTriedToLogIn = false;
+
+
   private $userNameMissing = false;
-  private $hasJustTriedToLogIn = false;
-  private $hasLoggedOut = false;
-  private $hasLoggedOutWithoutSession = false;
+
+  //private $hasLoggedOut = false;
+  //private $hasLoggedOutWithoutSession = false;
 
   private $isLoggedIn = false;
-  private $keepUserLoggedIn = false;
+  //private $keepUserLoggedIn = false;
   private $failedLoginAttempt = false;
   private $isLoggedInWithCookiesAndNoSession = false;
 
@@ -39,17 +45,18 @@ class LoginModel {
   //Salt used to encrypt user passwords
   private static $SALT = '5FeWq21O&3/+\643Bxlll$_?%3Fz72B..PYaS';
 
-  function __construct($formLoginName, $formPassword, $hasJustTriedToLogin, $hasLoggedOut, $keepUserLoggedIn) {
+  //function __construct($formLoginName, $formPassword, $hasJustTriedToLogin, $hasLoggedOut, $keepUserLoggedIn) {
+  function __construct($formLoginName, $formPassword) {
     assert(session_status() != PHP_SESSION_NONE);
 
     //Setting whether the login form has just been submitted
-    $this->hasJustTriedToLogin = $hasJustTriedToLogin;
+    //$this->hasJustTriedToLogin = $hasJustTriedToLogin;
 
     //Setting whether the user has logged out
-    $this->hasLoggedOut = $hasLoggedOut;
+    //$this->hasLoggedOut = $hasLoggedOut;
 
     //Setting whether the user wants to be kept logged in
-    $this->keepUserLoggedIn = $keepUserLoggedIn;
+    //$this->keepUserLoggedIn = $keepUserLoggedIn;
 
     //Setting the username and password
     $this->submitUsername = $formLoginName;
@@ -60,15 +67,27 @@ class LoginModel {
     $this->databaseUserName = $users[self::$DB_USER_NAME];
     $this->databasePassword = $users[self::$DB_PASSWORD_NAME];
 
-    $this->submitUsername = $formLoginName;
-    $this->submitPassword = $formPassword;
+    //$this->submitUsername = $formLoginName;
+    //$this->submitPassword = $formPassword;
 
     //Check if the user is logged in
-    $this->checkLoginState();
+    $this->setLoginState();
   }
 
-  function checkLoginState() {
+  function setLoginState() {
     $this->isLoggedInWithSession = $this->isLoggedInWithSession();
+    //$this->isLoggedOutWithSession = $this->checkIfLoggedOutWithSession();
+
+    //Check if the user is logged out without session
+    //$this->isLoggedOutWithoutSession = $this->checkIfLoggedOutWithoutSession();
+
+    //Check if the user is logged in with cookies
+    $this->isLoggedInWithCookies = $this->isThereALoginCookie();
+
+    //Check if the cookie content is ok
+    $this->cookieContentIsOk = $this->isCookieContentOk();
+
+    /*
     if ($this->hasJustTriedToLogin) {
       $this->isLoggedInWithForm = $this->isLoggedInWithForm();
     }
@@ -113,6 +132,27 @@ class LoginModel {
         return true;
       }
     }
+    */
+  }
+
+  function getIsLoggedInWithSession() {
+    return $this->isLoggedInWithSession;
+  }
+
+  function getIsLoggedOutWithSession() {
+    return $this->isLoggedOutWithSession;
+  }
+
+  function getIsLoggedOutWithoutSession() {
+    return $this->isLoggedOutWithoutSession;
+  }
+
+  function getIsLoggedInWithCookies() {
+    return $this->isLoggedInWithCookies;
+  }
+
+  function getCookieContentIsOk() {
+    return $this->cookieContentIsOk;
   }
 
   //Creates random string of known length
@@ -138,10 +178,6 @@ class LoginModel {
 
   function getIsLoggedIn() {
     return $this->isLoggedIn;
-  }
-
-  function getIsLoggedInWithSession() {
-    return $this->isLoggedInWithSession();
   }
 
   function checkIfLoggedOutWithSession() {
@@ -203,21 +239,22 @@ class LoginModel {
     return $this->hasLoggedOutWithoutSession;
   }
 
+/*
   function setHasLoggedOutWithoutSession($hasLoggedOutWithoutSession) {
     $this->hasLoggedOutWithoutSession = $hasLoggedOutWithoutSession;
   }
+*/
 
   function getIsLoggedInWithForm() {
     return $this->isLoggedInWithForm;
   }
 
-  function getIsLoggedInWithCookies() {
-    return $this->isLoggedInWithCookies;
-  }
 
+/*
   function getKeepUserLoggedIn() {
     return $this->keepUserLoggedIn;
   }
+  */
 
   function getUserNameMissing() {
     return $this->userNameMissing;
@@ -227,9 +264,11 @@ class LoginModel {
     return $this->passwordMissing;
   }
 
+/*
   function getHasJustTriedToLogIn() {
     return $this->hasJustTriedToLogin;
   }
+*/
 
   function getFirstLoginWithoutSession() {
     return $this->firstLoginWithoutSession;
@@ -294,6 +333,7 @@ class LoginModel {
     else {
       //If it does, check if the time in the text file matches the time of the cookie
       $contentLine = $this->getLineWithString(self::$DB_SESSION, $this->getSessionID());
+
       //Dividing the content line by divider ",,," into an array $sessionData
       //Where sessionData[0]=session id, sessionData[1]=user agent, sessionData[2]=ip address
       $sessionData = explode(",,,", $contentLine);
