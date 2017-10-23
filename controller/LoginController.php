@@ -80,8 +80,12 @@ class LoginController {
       error_log("Logged in with session", 3, "errors.log");
       if ($hasLoggedOut) {
         error_log("Logged in with session and has logged out", 3, "errors.log");
-        $loginView->terminateLoginSession();
+        $this->loginModel->terminateLoginSession();
         $message = self::$goodbyeMessage;
+      }
+      else {
+        $this->isLoggedIn = true;
+        $this->generateLogout = true;
       }
     }
     else {
@@ -114,11 +118,13 @@ class LoginController {
         error_log("Has just tried to log in", 3, "errors.log");
         if ($isLoggedInWithForm) {
             error_log("Is logged in with form", 3, "errors.log");
+            $this->isLoggedIn = true;
+            $generateLogout = true;
             //Try to create a login session
             if ($this->loginModel->createLoginSession()) {
               error_log("Has created login session", 3, "errors.log");
               //If a login session was created, store the session data
-              $this->loginView->storeSessionData();
+              $this->loginModel->storeSessionData();
               $message = 'Welcome';
             }
             //The user has clicked "keep me logged in" in the form
@@ -129,8 +135,6 @@ class LoginController {
               $this->loginModel->storeSessionCookieData($time);
               $message = 'Welcome and you will be remembered';
             }
-            $generateLogout = true;
-          //}
       }
       //Has tried to log in, but unsuccessfully
       else {
@@ -141,7 +145,7 @@ class LoginController {
           $message = 'Username is missing';
         }
         //Check if password is missing
-        else if ($passWordMissing) {
+        else if ($passwordMissing) {
           error_log("Password is missing", 3, "errors.log");
           $message = 'Password is missing';
         }
@@ -149,7 +153,6 @@ class LoginController {
           error_log("Wrong name or password", 3, "errors.log");
           $message = 'Wrong name or password';
         }
-      //}
     }
   }
 }
