@@ -12,13 +12,13 @@ Normal navigation to page, page is shown.
 - A form for login is shown
 - Todays date and time is shown in correct format.
 - Underneath todays date and time, there is a dropdown list with five different time zones. The default timezone "Europe/Stockholm" is picked.
-Next to the dropdown list is some text says "Pick timezone".
+Next to the dropdown list is some text that says "Pick timezone".
 Next to the text is a submit button that says "Change".
 
 ## Test case 5.2, Change time zone
 
 **Input:**
-- Test case 5.2.
+- Test case 5.1.
 - Pick a timezone from the list
 - Click the "Change" button
 
