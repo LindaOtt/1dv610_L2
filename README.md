@@ -24,4 +24,5 @@ Next to the text is a submit button that says "Change".
 
 **Output:**
 - The time is updated and reflects the picked timezone.
+- The weekday and date are updated and reflect the picked timezone.
 - The dropdown list shows the picked timezone.
