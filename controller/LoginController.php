@@ -10,12 +10,8 @@ class LoginController {
   private $loginModel;
   private $layoutView;
   private $loginView;
-  //private $dateTimeView;
   private $registerModel;
   private $registerView;
-
-  //private $isLoggedInWithSession = false;
-  //private $hasLoggedOutWithSession = false;
 
   private $isLoggedIn = false;
   private $failedLoginAttempt = false;
@@ -24,17 +20,6 @@ class LoginController {
 
   private static $goodbyeMessage = 'Bye bye!';
   private static $welcomeBackMessage = 'Welcome back with cookie';
-
-/*
-  function __construct(\model\LoginModel $loginModel, \view\LayoutView $layoutView, \view\LoginView $loginView, \view\DateTimeView $dateTimeView, \model\RegisterModel $registerModel, \view\RegisterView $registerView) {
-    $this->loginModel = $loginModel;
-    $this->layoutView = $layoutView;
-    $this->loginView = $loginView;
-    $this->dateTimeView = $dateTimeView;
-    $this->registerModel = $registerModel;
-    $this->registerView = $registerView;
-  }
-*/
 
   function __construct() {
     //Create the login view
@@ -61,7 +46,6 @@ class LoginController {
     //Check if the user is logged in with session
     $isLoggedInWithSession = $this->loginModel->getIsLoggedInWithSession();
     $isLoggedOutWithSession = $this->loginModel->getIsLoggedOutWithSession();
-    //$isLoggedOutWithoutSession = $this->loginModel->getIsLoggedOutWithoutSession();
     $isLoggedInWithCookies = $this->loginModel->getIsLoggedInWithCookies();
     $cookieContentIsOk = $this->loginModel->getIsCookieContentOk();
     $hasJustTriedToLogIn = $this->loginView->hasJustTriedToLogIn();
@@ -75,8 +59,6 @@ class LoginController {
     $registerUserNameOk = $this->registerModel->getIsRegisterNameOk();
     $registerPasswordOk = $this->registerModel->getRegisterPasswordOk();
     $showLoginViewResponse = true;
-
-    //$userNameMissing = $this->loginView->checkUserNameMissing();
 
     //Check login state
     //If the user is logged in with session and has just logged out,
@@ -182,7 +164,7 @@ class LoginController {
             $message = "Username has too few characters, at least 3 characters.";
           }
           else if ($registerPasswordOk == false) {
-            $message .= "Password has too few characters, at least 6 characters.";  
+            $message .= "Password has too few characters, at least 6 characters.";
           }
         }
       }
@@ -192,7 +174,7 @@ class LoginController {
         $showLoginViewResponse = false;
       }
     }
-}
+  }
 
     //Check if we should run the loginView response
     if ($showLoginViewResponse) {
@@ -206,7 +188,6 @@ class LoginController {
     //Send information from what user wants to do to layout view and show the right view
     $this->layoutView->render($this->isLoggedIn, $this->failedLoginAttempt, $this->wantsToRegisterUser, $this->response);
 
-    //$this->layoutView->render($this->loginModel, $this->loginView, $this->dateTimeView, $this->registerModel, $this->registerView);
   }
 
   public function getUserNameFromView() : string {

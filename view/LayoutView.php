@@ -12,31 +12,6 @@ class LayoutView {
     $this->dateTimeView = new \view\DateTimeView();
   }
 
-/*
-  public function render(\model\LoginModel $loginModel, \view\LoginView $v, \view\DateTimeView $dtv, \model\RegisterModel $registerModel, \view\RegisterView $registerView) {
-    echo '<!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <title>Login Example</title>
-        </head>
-        <body>
-
-          <h1>Assignment 2</h1>
-          ' . $this->renderRegisterUser($loginModel->getIsLoggedIn(), $loginModel->getFailedLoginAttempt(), $registerView->wantsToRegisterUser()) .
-              $this->renderIsLoggedIn($loginModel->getIsLoggedIn()) . '
-
-          <div class="container">
-              ' . $v->response($loginModel,$registerModel,$registerView) . '
-
-              ' . $dtv->showDateAndTime() . '
-          </div>
-         </body>
-      </html>
-    ';
-  }
-  */
-
   public function render($isLoggedIn, $failedLoginAttempt, $wantsToRegisterUser, $response) {
     echo '<!DOCTYPE html>
       <html>
