@@ -11,7 +11,7 @@ Normal navigation to page, page is shown.
 - The text "Not logged in", is shown
 - A form for login is shown
 - Todays date and time is shown in correct format.
-- Underneath todays date and time, there is a dropdown list with five different time zones. The default timezone "Europe/Stockholm" is picked.
+- Underneath today's date and time, there is a dropdown list with five different time zones. The default timezone "Europe/Stockholm" is picked.
 Next to the dropdown list is some text that says "Pick timezone".
 Next to the text is a submit button that says "Change".
 

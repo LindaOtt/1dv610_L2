@@ -1,9 +1,11 @@
 <?php
+/*
 function shutdown(){
   var_dump(error_get_last());
 }
 
 register_shutdown_function('shutdown');
+*/
 
 session_start();
 require_once('controller/LoginController.php');

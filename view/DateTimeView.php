@@ -22,40 +22,6 @@ class DateTimeView {
 		}
 	}
 
-/*
-	public function showDateAndTime() {
-		switch ($this->selectedTimeZone) {
-			case "stockholm":
-				error_log("timezone stockholm", 3, "errors.log");
-				date_default_timezone_set('Europe/Stockholm');
-				break;
-			case "london":
-				error_log("timezone london", 3, "errors.log");
-			 	date_default_timezone_set('Europe/London');
-				break;
-			case "tallinn":
-				error_log("timezone tallinn", 3, "errors.log");
-				date_default_timezone_set('Europe/Tallinn');
-				break;
-			case "moscow":
-				error_log("timezone moscow", 3, "errors.log");
-				date_default_timezone_set('Europe/Moscow');
-				break;
-			case "paris":
-				error_log("timezone paris", 3, "errors.log");
-				date_default_timezone_set('Europe/Paris');
-				break;
-			default:
-				error_log("timezone default", 3, "errors.log");
-				date_default_timezone_set('Europe/Stockholm');
-		}
-
-		$timeString = date('l, \t\h\e jS \o\f F Y, \T\h\e \t\i\m\e \i\s H:i:s', time());
-
-		return '<p>' . $timeString . '</p>';
-	}
-	*/
-
 	public function showDateAndTime() {
 		switch ($this->selectedTimeZone) {
 			case $this->timeZones[0][0]:

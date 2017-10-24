@@ -81,9 +81,7 @@ class LoginController {
     //If the user is logged in with session and has just logged out,
     //terminate login session
     if ($isLoggedInWithSession) {
-      error_log("Logged in with session", 3, "errors.log");
       if ($hasLoggedOut) {
-        error_log("Logged in with session and has logged out", 3, "errors.log");
         $this->loginModel->terminateLoginSession();
         $message = self::$goodbye;
       }
@@ -93,25 +91,20 @@ class LoginController {
       }
     }
     else {
-      error_log("Not logged in with session", 3, "errors.log");
       //The user is not logged in with session, but has still logged out
       if ($hasLoggedOut) {
-        error_log("Not logged in with session and has logged out", 3, "errors.log");
         $message = '';
       }
       //The user is not logged in with session, but is logged in with cookies
       else if ($isLoggedInWithCookies) {
-        error_log("Logged in with cookies", 3, "errors.log");
         //Cookie has correct username and password
         if ($cookieContentIsOk) {
-          error_log("Cookie content ok", 3, "errors.log");
           $message = self::$welcomeBack;
           $this->isLoggedIn = true;
           $generateLogout = true;
         }
         //The cookie has wrong username and/or password, remove cookies
         else {
-          error_log("Cookie content not ok", 3, "errors.log");
           $message = self::$wrongInfoCookies;
           $this->loginModel->removeCookies();
           $this->failedLoginAttempt = true;
@@ -121,22 +114,18 @@ class LoginController {
       //Is not logged in with cookies,
       //But has just tried to log in
       else if ($hasJustTriedToLogIn) {
-        error_log("Has just tried to log in", 3, "errors.log");
         //The log in was successful
         if ($isLoggedInWithForm) {
-            error_log("Is logged in with form", 3, "errors.log");
             $this->isLoggedIn = true;
             $generateLogout = true;
             //Try to create a login session
             if ($this->loginModel->createLoginSession()) {
-              error_log("Has created login session", 3, "errors.log");
               //If a login session was created, store the session data
               $this->loginModel->storeSessionData();
               $message = self::$welcome;
             }
             //The user has clicked "keep me logged in" in the form
             if ($keepUserLoggedIn) {
-              error_log("Keep user logged in", 3, "errors.log");
               $time = time()+180;
               $this->loginModel->createLoginCookies($time, true);
               $this->loginModel->storeSessionCookieData($time);
@@ -145,30 +134,23 @@ class LoginController {
       }
       //Has just tried to log in, but is not logged in with form (log in was unsuccessful)
       else {
-        error_log("Unsuccessful login", 3, "errors.log");
         //Check if username is missing
         if ($userNameMissing) {
-          error_log("Username is missing", 3, "errors.log");
           $message = self::$usernamemissing;
         }
         //Check if password is missing
         else if ($passwordMissing) {
-          error_log("Password is missing", 3, "errors.log");
           $message = self::$passwordmissing;
         }
         else {
-          error_log("Wrong name or password", 3, "errors.log");
           $message = self::$wrongnameorpassword;
         }
       }
     }
     //The user wants to register a new user, and has clicked the register link
     else if ($wantsToRegisterUser) {
-      error_log("Wants to register user", 3, "errors.log");
       if ($registerFormHasBeenPosted) {
-        error_log("Register form has been posted", 3, "errors.log");
         if ($registerUserNameOk && $registerPasswordOk) {
-          error_log("Register username is ok and register password is ok", 3, "errors.log");
           $message = self::$registerednewuser;
         }
         else if ($registerUserNameOk == false && $registerPasswordOk == false) {
