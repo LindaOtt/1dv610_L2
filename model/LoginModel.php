@@ -79,11 +79,9 @@ class LoginModel {
   function createRandomString() : string {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
     $string = '';
-
     for ($i = 0; $i < 20; $i++) {
         $string .= $characters[mt_rand(0, strlen($characters) - 1)];
     }
-
     return $string;
   }
 
@@ -98,42 +96,6 @@ class LoginModel {
     return $this->isLoggedIn;
   }
 
-  function checkIfLoggedOutWithSession() {
-    //The user has just clicked the "logout" button
-    if ($this->hasLoggedOut == true) {
-      $this->setIsLoggedInWithSession(false);
-      $this->terminateLoginSession();
-    }
-    //The user has not logged out
-    else {
-      $this->isLoggedIn = true;
-    }
-  }
-
-  function checkIfLoggedOutWithoutSession() {
-    //The user has just clicked the "logout" button
-    if ($this->hasLoggedOut == true) {
-        return true;
-    }
-    return false;
-  }
-
-  function checkIfLoggedInSuccessfully() {
-    //The user has just tried to log in with the log in form
-    //The login was successful, username and password are correct
-    if ($this->getHasJustTriedToLogIn() && $this->getIsLoggedInWithForm()) {
-      $this->isLoggedIn = true;
-      $this->firstLoginWithoutSession = true;
-      $this->keepUserLogin = false;
-      return true;
-    }
-    return false;
-  }
-
-  function getFailedLoginAttempt() {
-    return $this->failedLoginAttempt;
-  }
-
   function checkIsCookieContentOk() {
     if ($this->isCookieContentOk()) {
       return true;
@@ -144,9 +106,6 @@ class LoginModel {
   function removeCookies() {
     $this->createLoginCookies(time()-1000, false);
   }
-  function setIsLoggedInWithSession($isLoggedInWithSession) {
-    $this->isLoggedInWithSession = false;
-  }
 
   function getHasLoggedOutWithoutSession() {
     return $this->hasLoggedOutWithoutSession;
@@ -154,18 +113,6 @@ class LoginModel {
 
   function getIsLoggedInWithForm() {
     return $this->isLoggedInWithForm;
-  }
-
-  function getUserNameMissing() {
-    return $this->userNameMissing;
-  }
-
-  function getPasswordMissing() {
-    return $this->passwordMissing;
-  }
-
-  function getFirstLoginWithoutSession() {
-    return $this->firstLoginWithoutSession;
   }
 
   function isUserNameMissing() {
@@ -180,9 +127,14 @@ class LoginModel {
     return $this->isCookieContentOk;
   }
 
+  function loginIsCorrect() {
+    return ($this->userNameIsCorrect() && $this->passwordIsCorrect()) == true;
+  }
+
   /**
   * Check that the submitted username matches the username in the settings file
   */
+
   function userNameIsCorrect() {
     return ($this->submitUsername == $this->databaseUserName) == true;
   }
@@ -190,6 +142,7 @@ class LoginModel {
   /**
   * Check that the submitted password matches the password in the database
   */
+
   function passwordIsCorrect() {
     //Encrypt the submitted password
     $encryptedSubmitPassword = $this->createEncryptedPassword($this->submitPassword);
@@ -197,10 +150,6 @@ class LoginModel {
     //Remove the random string from the password in the database
     $databasePasswordWithoutRandom = substr($this->databasePassword, 0, -20);
     return ($encryptedSubmitPassword == $databasePasswordWithoutRandom) == true;
-  }
-
-  function loginIsCorrect() {
-    return ($this->userNameIsCorrect() && $this->passwordIsCorrect()) == true;
   }
 
   function isLoggedInWithSession() {

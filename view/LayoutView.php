@@ -29,6 +29,9 @@ class LayoutView {
               ' . $response . '
 
               ' . $this->dateTimeView->showDateAndTime() . '
+
+              ' . $this->dateTimeView->showChangeTimeZoneForm() . '
+
           </div>
          </body>
       </html>

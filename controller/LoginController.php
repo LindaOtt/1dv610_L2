@@ -5,6 +5,7 @@ require_once('view/LoginView.php');
 require_once('model/LoginModel.php');
 require_once('view/RegisterView.php');
 require_once('view/LayoutView.php');
+require_once('view/DateTimeView.php');
 
 class LoginController {
   private $loginModel;
@@ -45,8 +46,13 @@ class LoginController {
     //Get the register model from the register view
     $this->registerModel = $this->registerView->createRegister();
 
+    //Create the datetime view
+    $this->dateTimeView = new \view\DateTimeView();
+
     //Create the layout view
     $this->layoutView = new \view\LayoutView();
+
+
   }
 
   public function runLoginSystem() {
@@ -198,10 +204,6 @@ class LoginController {
 
     //Send information from what user wants to do to layout view and show the right view
     $this->layoutView->render($this->isLoggedIn, $this->failedLoginAttempt, $this->wantsToRegisterUser, $this->response);
-
-  }
-
-  public function getUserNameFromView() : string {
 
   }
 

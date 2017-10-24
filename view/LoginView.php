@@ -10,15 +10,6 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	private $wantsToRegisterUser = false;
-	private $registerView;
-	private $messageState = 0;
-
-	function __construct() {
-		$this->hasJustTriedToLogIn = $this->hasJustTriedToLogIn();
-		$this->hasLoggedOut = $this->hasLoggedOut();
-		$this->keepUserLoggedIn = $this->keepUserLoggedIn();
-	}
 
 	/**
 	 * Create HTTP response
@@ -108,4 +99,5 @@ class LoginView {
 		}
 		return '';
 	}
+
 }
