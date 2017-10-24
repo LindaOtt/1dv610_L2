@@ -1,7 +1,7 @@
 # Login_1DV608
 Interface repository for 1DV608 assignment 2 and 4
 
-#Test case 5.1, Show time zone dropdown
+## Test case 5.1, Show time zone dropdown
 Normal navigation to page, page is shown.
 
 **Input:**
@@ -15,7 +15,8 @@ Normal navigation to page, page is shown.
 Next to the dropdown list is some text says "Pick timezone".
 Next to the text is a submit button that says "Change".
 
-#Test case 5.2, Change time zone
+## Test case 5.2, Change time zone
+
 **Input:**
 - Test case 5.2.
 - Pick a timezone from the list
