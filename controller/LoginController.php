@@ -18,8 +18,19 @@ class LoginController {
   private $wantsToRegisterUser = false;
   private $response = '';
 
-  private static $goodbyeMessage = 'Bye bye!';
-  private static $welcomeBackMessage = 'Welcome back with cookie';
+  private static $goodbye = 'Bye bye!';
+  private static $welcomeBack = 'Welcome back with cookie';
+  private static $wrongInfoCookies = 'Wrong information in cookies';
+  private static $welcome = 'Welcome';
+  private static $welcomeremembered = 'Welcome and you will be remembered';
+  private static $usernamemissing = 'Username is missing';
+  private static $passwordmissing = 'Password is missing';
+  private static $wrongnameorpassword = 'Wrong name or password';
+  private static $registerednewuser = 'Registered new user';
+  private static $registeredUsernamePasswordWrong = 'Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.';
+  private static $usernameWrong = 'Username has too few characters, at least 3 characters.';
+  private static $passwordWrong = 'Password has too few characters, at least 6 characters.';
+
 
   function __construct() {
     //Create the login view
@@ -68,7 +79,7 @@ class LoginController {
       if ($hasLoggedOut) {
         error_log("Logged in with session and has logged out", 3, "errors.log");
         $this->loginModel->terminateLoginSession();
-        $message = self::$goodbyeMessage;
+        $message = self::$goodbye;
       }
       else {
         $this->isLoggedIn = true;
@@ -88,14 +99,14 @@ class LoginController {
         //Cookie has correct username and password
         if ($cookieContentIsOk) {
           error_log("Cookie content ok", 3, "errors.log");
-          $message = self::$welcomeBackMessage;
+          $message = self::$welcomeBack;
           $this->isLoggedIn = true;
           $generateLogout = true;
         }
         //The cookie has wrong username and/or password, remove cookies
         else {
           error_log("Cookie content not ok", 3, "errors.log");
-          $message = "Wrong information in cookies";
+          $message = self::$wrongInfoCookies;
           $this->loginModel->removeCookies();
           $this->failedLoginAttempt = true;
         }
@@ -115,7 +126,7 @@ class LoginController {
               error_log("Has created login session", 3, "errors.log");
               //If a login session was created, store the session data
               $this->loginModel->storeSessionData();
-              $message = 'Welcome';
+              $message = self::$welcome;
             }
             //The user has clicked "keep me logged in" in the form
             if ($keepUserLoggedIn) {
@@ -123,7 +134,7 @@ class LoginController {
               $time = time()+180;
               $this->loginModel->createLoginCookies($time, true);
               $this->loginModel->storeSessionCookieData($time);
-              $message = 'Welcome and you will be remembered';
+              $message = self::$welcomeremembered;
             }
       }
       //Has just tried to log in, but is not logged in with form (log in was unsuccessful)
@@ -132,16 +143,16 @@ class LoginController {
         //Check if username is missing
         if ($userNameMissing) {
           error_log("Username is missing", 3, "errors.log");
-          $message = 'Username is missing';
+          $message = self::$usernamemissing;
         }
         //Check if password is missing
         else if ($passwordMissing) {
           error_log("Password is missing", 3, "errors.log");
-          $message = 'Password is missing';
+          $message = self::$passwordmissing;
         }
         else {
           error_log("Wrong name or password", 3, "errors.log");
-          $message = 'Wrong name or password';
+          $message = self::$wrongnameorpassword;
         }
       }
     }
@@ -152,19 +163,19 @@ class LoginController {
         error_log("Register form has been posted", 3, "errors.log");
         if ($registerUserNameOk && $registerPasswordOk) {
           error_log("Register username is ok and register password is ok", 3, "errors.log");
-          $message = "Registered new user";
+          $message = self::$registerednewuser;
         }
         else if ($registerUserNameOk == false && $registerPasswordOk == false) {
-          $message = "Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.";
+          $message = self::$registeredUsernamePasswordWrong;
           $showLoginViewResponse = false;
         }
         else {
           $showLoginViewResponse = false;
           if ($registerUserNameOk == false) {
-            $message = "Username has too few characters, at least 3 characters.";
+            $message = self::$usernameWrong;
           }
           else if ($registerPasswordOk == false) {
-            $message .= "Password has too few characters, at least 6 characters.";
+            $message .= self::$passwordWrong;
           }
         }
       }
